@@ -1,0 +1,15 @@
+# Manim outputs
+media/
+output/
+
+# Python
+__pycache__/
+*.pyc
+
+# OS / editor
+.DS_Store
+.vscode/
+.idea/
+
+# Logs
+*.log
