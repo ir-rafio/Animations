@@ -1,5 +1,6 @@
 from manim import *
 from manim_slides import Slide
+import math
 
 def add_header(scene, header_text, text_color=WHITE):
     scene.header_mob = Tex(header_text, color=text_color).to_corner(UL)
@@ -114,8 +115,9 @@ class SectionSlide(Slide):
         self.title = Tex(self.section_title, color=self.text_color)
 
     def fit_text_in_circle(self):
-        max_width = self.radius * 1.8
-        max_height = self.radius * 1.8
+        scale_factor = math.sqrt(2) * 0.9
+        max_width = self.radius * scale_factor
+        max_height = self.radius * scale_factor
 
         self.title.scale_to_fit_width(max_width)
 
