@@ -1,0 +1,134 @@
+from manim import *
+from manim_slides import Slide
+
+def add_header(scene, header_text, text_color=WHITE):
+    scene.header_mob = Tex(header_text, color=text_color).to_corner(UL)
+    scene.add(scene.header_mob)
+
+    add_header_underline(scene, text_color=text_color)
+
+
+def add_header_underline(scene, margin=0.5, text_color=WHITE):
+    half_width = config.frame_width / 2
+
+    scene.header_underline = Line(
+        LEFT * (half_width - margin),
+        RIGHT * (half_width - margin),
+    )
+
+    scene.header_underline.next_to(scene.header_mob, DOWN, buff=0.15)
+    scene.header_underline.align_to(scene.header_mob, LEFT)
+    scene.header_underline.set_stroke(width=2, color=text_color)
+
+    scene.add(scene.header_underline)
+
+class BulletSlide(Slide):
+    def __init__(self, header_text="", points=None, text_color=WHITE, **kwargs):
+        super().__init__(**kwargs)
+
+        self.text_color = text_color
+        self.header_text = header_text
+        self.points = points or []
+
+        add_header(self, header_text, text_color=self.text_color)
+
+        self.build_points()
+        self.fit_points_in_frame()
+        self.position_points()
+
+    def construct(self):
+        self.present_points()
+        self.next_slide()
+        self.cleanup()
+
+    def build_points(self):
+        self.bullets = VGroup(*[
+            Tex(r"$\square$ " + p, color=self.text_color)
+            for p in self.points
+        ])
+
+        self.bullets.arrange(DOWN, aligned_edge=LEFT, buff=0.4)
+
+    def fit_points_in_frame(self):
+        max_width = config.frame_width - 1
+        max_height = config.frame_height - 2 - self.header_mob.height
+
+        self.bullets.scale_to_fit_height(max_height)
+
+        if self.bullets.width > max_width:
+            self.bullets.scale_to_fit_width(max_width)
+
+    def position_points(self):
+        self.bullets.next_to(
+            self.header_mob,
+            DOWN,
+            aligned_edge=LEFT,
+            buff=0.8
+        )
+
+    def present_points(self, run_time=1):
+        for bullet in self.bullets:
+            self.play(Write(bullet), run_time=run_time)
+            self.next_slide()
+    
+    def cleanup(self, run_time=1):
+      self.play(
+          Unwrite(self.bullets),
+          run_time=run_time
+      )
+
+class SectionSlide(Slide):
+    def __init__(
+        self,
+        section_title="",
+        circle_color=GREEN_E,
+        text_color=WHITE,
+        radius=3,
+        **kwargs
+    ):
+        super().__init__(**kwargs)
+
+        self.section_title = rf"\textbf{{{section_title}}}"
+        self.circle_color = circle_color
+        self.text_color = text_color
+        self.radius = radius
+
+        self.build_circle()
+        self.build_title()
+        self.fit_text_in_circle()
+        self.position_elements()
+
+    def construct(self):
+        self.present_section()
+        self.next_slide()
+        self.cleanup()
+
+    def build_circle(self):
+        self.circle = Circle(radius=self.radius)
+        self.circle.set_fill(self.circle_color, opacity=1)
+        self.circle.set_stroke(width=0)
+
+    def build_title(self):
+        self.title = Tex(self.section_title, color=self.text_color)
+
+    def fit_text_in_circle(self):
+        max_width = self.radius * 1.8
+        max_height = self.radius * 1.8
+
+        self.title.scale_to_fit_width(max_width)
+
+        if self.title.height > max_height:
+            self.title.scale_to_fit_height(max_height)
+
+    def position_elements(self):
+        self.group = VGroup(self.circle, self.title)
+        self.title.move_to(self.circle.get_center())
+
+        self.group.move_to(ORIGIN)
+
+    def present_section(self, run_time=2):
+        self.play(FadeIn(self.circle), run_time=run_time / 2)
+        self.play(Write(self.title), run_time=run_time / 2)
+    
+    def cleanup(self, run_time=1):
+      self.play(FadeOut(self.group), run_time=run_time)
