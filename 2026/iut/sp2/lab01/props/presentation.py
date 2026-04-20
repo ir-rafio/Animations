@@ -25,6 +25,7 @@ def add_header_underline(scene, margin=0.5, text_color=WHITE):
 class BulletSlide(Slide):
     def __init__(self, header_text="", points=None, text_color=WHITE, **kwargs):
         super().__init__(**kwargs)
+        self.wait_time_between_slides = 0.1
 
         self.text_color = text_color
         self.header_text = header_text
@@ -87,6 +88,7 @@ class SectionSlide(Slide):
         **kwargs
     ):
         super().__init__(**kwargs)
+        self.wait_time_between_slides = 0.1
 
         self.section_title = rf"\textbf{{{section_title}}}"
         self.circle_color = circle_color
