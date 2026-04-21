@@ -24,8 +24,11 @@ DisplaySigned32
 Section_BitwiseOperators
 BitwiseOperators
 BitwiseOR
+DemoOR
 BitwiseAND
+DemoAND
 BitwiseXOR
+DemoXOR
 BitwiseNOT
 BitwiseSHIFT
 Section_Applications

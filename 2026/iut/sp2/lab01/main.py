@@ -665,3 +665,260 @@ class BitwiseOperators(BulletSlide):
             ],
             **kwargs
         )
+
+class BitwiseOR(BulletSlide):
+    def __init__(self, **kwargs):
+        super().__init__(
+            header_text=r"Bitwise Operators --- OR (\texttt{|})",
+            text_color=BLACK,
+            points = [
+                r"Bitwise OR is a binary operator that operates on two integers by applying the OR operation to each pair of corresponding bits.",
+                r"The $i$-th bit of the output depends only on the $i$-th bits of the inputs.",
+                r"The $i$-th bit of the output is $1$ if \textbf{at least one} of the corresponding input bits is $1$.",
+                r"Truth table: $0 \texttt{|} 0 = 0,\; 0 \texttt{|} 1 = 1,\; 1 \texttt{|} 0 = 1,\; 1 \texttt{|} 1 = 1$",
+                r"Bitwise OR (\texttt{|}) should not be confused with logical OR (\texttt{||}). For example, $5 \texttt{|} 6 = 7$, but $5 \texttt{||} 6 = 1$."
+            ],
+            **kwargs
+        )
+
+
+class BitwiseAND(BulletSlide):
+    def __init__(self, **kwargs):
+        super().__init__(
+            header_text=r"Bitwise Operators --- AND (\texttt{\&})",
+            text_color=BLACK,
+            points = [
+                r"Bitwise AND is a binary operator that operates on two integers by applying the AND operation to each pair of corresponding bits.",
+                r"The $i$-th bit of the output depends only on the $i$-th bits of the inputs.",
+                r"The $i$-th bit of the output is $1$ if \textbf{both} corresponding input bits are $1$.",
+                r"Truth table: $0 \texttt{\&} 0 = 0,\; 0 \texttt{\&} 1 = 0,\; 1 \texttt{\&} 0 = 0,\; 1 \texttt{\&} 1 = 1$",
+                r"Bitwise AND (\texttt{\&}) should not be confused with logical AND (\texttt{\&\&}). For example, $5 \texttt{\&} 6 = 4$, but $5 \texttt{\&\&} 6 = 1$."
+            ],
+            **kwargs
+        )
+
+
+class BitwiseXOR(BulletSlide):
+    def __init__(self, **kwargs):
+        super().__init__(
+            header_text=r"Bitwise Operators --- XOR (\texttt{\^{}})",
+            text_color=BLACK,
+            points = [
+                r"Bitwise XOR is a binary operator that operates on two integers by applying the XOR operation to each pair of corresponding bits.",
+                r"The $i$-th bit of the output depends only on the $i$-th bits of the inputs.",
+                r"The $i$-th bit of the output is $1$ if \textbf{an odd number of} corresponding input bits are $1$.",
+                r"Another way to think about it:\\ The $i$-th bit of the output is $1$ if the corresponding input bits are \textbf{different}.",
+                r"Truth table: $0 \texttt{\^{}} 0 = 0,\; 0 \texttt{\^{}} 1 = 1,\; 1 \texttt{\^{}} 0 = 1,\; 1 \texttt{\^{}} 1 = 0$",
+                r"\textbf{Cool Trick}: Applying XOR with $32$ changes the case of a character (converts an uppercase character to lowercase and vice versa)."
+            ],
+            **kwargs
+        )
+
+class BitwiseNOT(BulletSlide):
+    def __init__(self, **kwargs):
+        super().__init__(
+            header_text=r"Bitwise Operators --- NOT (\texttt{\textasciitilde})",
+            text_color=BLACK,
+            points = [
+                r"Bitwise NOT is a unary operator that flips each bit of a number.",
+                r"It changes every $0$ to $1$ and every $1$ to $0$.",
+                r"For signed integers, the result of Bitwise NOT is the \textbf{binary complement} of the number.",
+                r"Bitwise NOT works on both signed and unsigned integers.",
+                r"Bitwise NOT (\texttt{\textasciitilde}) should not be confused with logical NOT (\texttt{!})."
+            ],
+            **kwargs
+        )
+
+class BitwiseShift(BulletSlide):
+    def __init__(self, **kwargs):
+        super().__init__(
+            header_text=r"Bitwise Operators --- Shift (\texttt{<<}, \texttt{>>})",
+            text_color=BLACK,
+            points = [
+                r"Bitwise shift operators move the bits of a number left or right.",
+                r"Left shift (\texttt{<<}) shifts all bits to the left and fills the empty right bits with $0$.",
+                r"Right shift (\texttt{>>}) shifts all bits to the right and removes the rightmost bits.",
+                r"Shifting left by $n$ bits multiplies the number by $2^n$.",
+                r"Shifting right by $n$ bits divides the number by $2^n$ (discarding remainder).",
+            ],
+            **kwargs
+        )
+
+class BitwiseOperatorDemo(Slide):
+    def __init__(self, operator_name, op_func, text_color=WHITE, **kwargs):
+        super().__init__(**kwargs)
+        self.wait_time_between_slides = 0.1
+
+        self.operator_name = operator_name
+        self.op_func = op_func
+
+        self.bits = 8
+        self.a = 5
+        self.b = 6
+
+        self.text_color = text_color
+
+        add_header(self, f"Bitwise Operators --- {self.operator_name}", text_color=self.text_color)
+        self._build_left_side()
+        self._build_truth_table()
+        self._layout()
+
+    def _build_left_side(self):
+        self.a_value = Tex("5", color=self.text_color)
+        self.a_arrow = Tex(r"$\rightarrow$", color=self.text_color)
+        self.a_label = VGroup(self.a_value, self.a_arrow).arrange(RIGHT, buff=1)
+
+        self.b_value = Tex("6", color=self.text_color)
+        self.b_arrow = Tex(r"$\rightarrow$", color=self.text_color)
+        self.b_label = VGroup(self.b_value, self.b_arrow).arrange(RIGHT, buff=1)
+
+        self.r_value = Tex(r"$?$", color=self.text_color)
+        self.r_arrow = Tex(r"$\rightarrow$", color=self.text_color)
+        self.r_label = VGroup(self.r_value, self.r_arrow).arrange(RIGHT, buff=1)
+
+        self.a_bits = self._bits(self.a)
+        self.b_bits = self._bits(self.b)
+
+        self.r_bits = VGroup(*[
+            Tex("$?$", color=self.text_color)
+            for _ in range(self.bits)
+        ]).arrange(RIGHT, buff=0.6)
+
+        self.weights = self._weights()
+
+        self.left_group = VGroup(
+            self.weights,
+            VGroup(self.a_label, self.a_bits).arrange(RIGHT, buff=1),
+            VGroup(self.b_label, self.b_bits).arrange(RIGHT, buff=1),
+            VGroup(self.r_label, self.r_bits).arrange(RIGHT, buff=1)
+        ).arrange(DOWN, aligned_edge=LEFT, buff=0.8)
+
+        for w, a_bit, r_bit in zip(self.weights, self.a_bits, self.r_bits):
+            w.align_to(a_bit, LEFT)
+            r_bit.align_to(a_bit, RIGHT)
+
+    def _bits(self, num):
+        return VGroup(*[
+            Tex(b, color=self.text_color)
+            for b in format(num, f"0{self.bits}b")
+        ]).arrange(RIGHT, buff=0.6)
+
+    def _weights(self):
+        items = []
+
+        for i in range(self.bits - 1, -1, -1):
+            v = 2 ** i
+            txt = str(v) if v <= 8 else rf"$2^{i}$"
+            items.append(Tex(txt, color=self.text_color))
+
+        return VGroup(*items).arrange(RIGHT, buff=0.2)
+
+    def _build_truth_table(self):
+        raw = [
+            "A", "B", f"A {self.operator_name} B",
+            0, 0, self.op_func(0, 0),
+            0, 1, self.op_func(0, 1),
+            1, 0, self.op_func(1, 0),
+            1, 1, self.op_func(1, 1),
+        ]
+
+        cells = VGroup(*[
+            Tex(str(x), color=self.text_color)
+            for x in raw
+        ])
+
+        self.truth_table = cells.arrange_in_grid(cols=3, buff=0.4)
+
+    def _layout(self):
+        self.left_group.next_to(
+            self.header_mob,
+            DOWN,
+            aligned_edge=LEFT,
+            buff=0.8
+        )
+
+        self.truth_table.next_to(
+            self.header_mob,
+            DOWN,
+            buff=0.8
+        )
+        self.truth_table.align_to(self.header_underline, RIGHT)
+
+    def construct(self):
+        self.play(Create(self.truth_table))
+        self.next_slide()
+
+        self.play(Write(self.left_group))
+        self.next_slide()
+
+        self._animate_bitwise()
+
+        self.next_slide()
+
+        result = self.op_func(self.a, self.b)
+
+        self.play(
+            Transform(
+                self.r_value,
+                Tex(str(result), color=self.text_color).move_to(self.r_value)
+            ),
+            run_time=0.8
+        )
+
+        self.next_slide()
+
+        self.play(
+            Unwrite(self.left_group),
+            Uncreate(self.truth_table),
+            run_time=1
+        )
+
+    def _animate_bitwise(self):
+        result = self.op_func(self.a, self.b)
+        r_bits = format(result, f"0{self.bits}b")
+
+        for i in range(self.bits):
+            idx = self.bits - 1 - i
+
+            self.play(
+                Indicate(self.a_bits[idx]),
+                Indicate(self.b_bits[idx]),
+                run_time=0.4
+            )
+
+            self.play(
+                Transform(
+                    self.r_bits[idx],
+                    Tex(r_bits[idx], color=self.text_color).move_to(self.r_bits[idx])
+                ),
+                run_time=0.2
+            )
+
+            self.next_slide()
+
+class DemoOR(BitwiseOperatorDemo):
+    def __init__(self, **kwargs):
+        super().__init__(
+            operator_name="OR",
+            op_func=lambda a, b: a | b,
+            text_color=BLACK,
+            **kwargs
+        )
+
+class DemoAND(BitwiseOperatorDemo):
+    def __init__(self, **kwargs):
+        super().__init__(
+            operator_name="AND",
+            op_func=lambda a, b: a & b,
+            text_color=BLACK,
+            **kwargs
+        )
+
+class DemoXOR(BitwiseOperatorDemo):
+    def __init__(self, **kwargs):
+        super().__init__(
+            operator_name="XOR",
+            op_func=lambda a, b: a ^ b,
+            text_color=BLACK,
+            **kwargs
+        )
