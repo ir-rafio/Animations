@@ -55,7 +55,8 @@ class BulletSlide(Slide):
         max_width = config.frame_width - 1
         max_height = config.frame_height - 2 - self.header_mob.height
 
-        self.bullets.scale_to_fit_height(max_height)
+        if self.bullets.height > max_height:
+            self.bullets.scale_to_fit_height(max_height)
 
         if self.bullets.width > max_width:
             self.bullets.scale_to_fit_width(max_width)
