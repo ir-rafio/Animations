@@ -23,7 +23,7 @@ trap 'cd "$ORIGINAL_DIR"' EXIT
 cd "$WORKING_DIR"
 
 MAIN_FILE="main.py"
-OUTPUT_DIR="output"
+OUTPUT_DIR="output/mini"
 
 mkdir -p "$OUTPUT_DIR"
 
