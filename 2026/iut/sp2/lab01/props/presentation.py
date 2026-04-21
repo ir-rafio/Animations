@@ -55,7 +55,7 @@ class BulletSlide(Slide):
             VGroup(
                 Tex(bullet_symbol, color=self.text_color),
                 Tex(p, color=self.text_color)
-            ).arrange(RIGHT, buff=0.3)
+            ).arrange(RIGHT, buff=0.3, aligned_edge=UP)
             for p in self.points
         ])
 

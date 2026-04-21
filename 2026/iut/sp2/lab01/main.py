@@ -305,3 +305,37 @@ class DisplayUnsigned(BulletSlide):
 
     def present_points(self, run_time=1):
         self.play(Create(self.bullets), run_time=run_time)
+
+class Section_SignedRepresentation(SectionSlide):
+    def __init__(self, **kwargs):
+        super().__init__(
+            section_title=r"Signed\\Number\\Representation",
+            **kwargs
+        )
+
+class SignedRepresentation1(BulletSlide):
+    def __init__(self, **kwargs):
+        super().__init__(
+            header_text="Signed Number Representation",
+            text_color=BLACK,
+            points = [
+                r"Computers need to work with negative numbers.",
+                r"In \textbf{unsigned} variables, all bits are used to represent the \textbf{magnitude} (absolute value) of a number.",
+                r"In signed variables, a \textbf{sign bit} (the leftmost bit) is reserved to represent the sign of a number.",
+                r"If the sign bit of a number is $0$, it is \textbf{non-negative}. And if the sign bit is $1$, it is negative.",
+            ],
+            **kwargs
+        )
+
+class SignedRepresentation2(BulletSlide):
+    def __init__(self, **kwargs):
+        super().__init__(
+            header_text="Signed Number Representation",
+            text_color=BLACK,
+            points = [
+                r"One of the sequences for non-negative numbers is used by $0$. So, with a fixed number of bits, the number of different negative numbers that can be represented is \textbf{one more than} the number of different positive numbers.",
+                r"For example, with $4$ bits, $16$ different numbers can be represented. In signed representation, $8$ of them are negative, $7$ of them are positive, and $1$ of them is $0$.",
+                r"An effective representation of negative numbers should be consistent with arithmetic operations (addition, subtraction, $\dots$)."
+            ],
+            **kwargs
+        )
