@@ -294,17 +294,115 @@ class BinaryPositions(MathExpansionSlide):
         )
 
 class DisplayUnsigned(BulletSlide):
-    def __init__(self, **kwargs):
+    def __init__(self, bits, show_all=False, **kwargs):
+
+        self.bits = bits
+        self.show_all = show_all
+
+        max_val = 2**bits - 1
+
+        if show_all:
+            points = [
+                rf"${i} \rightarrow {i:0{bits}b}$"
+                for i in range(2**bits)
+            ]
+        else:
+            points = (
+                [rf"${i} \rightarrow {i:0{bits}b}$" for i in range(3)] +
+                [r"$\dots$"] +
+                [r"$\dots$"] +
+                [rf"${i} \rightarrow {i:0{bits}b}$" for i in range(max_val - 2, max_val + 1)]
+            )
+
         super().__init__(
-            header_text="Binary Number System",
+            header_text=f"Binary Number System -- {bits} Bits",
             text_color=BLACK,
-            points = [rf"${i} \rightarrow {i:04b}$" for i in range(16)],
+            points = points,
             bullet_symbol = "",
             **kwargs
         )
 
     def present_points(self, run_time=1):
         self.play(Create(self.bullets), run_time=run_time)
+
+class DisplayUnsigned4(DisplayUnsigned):
+    def __init__(self, **kwargs):
+        super().__init__(bits=4, show_all=True, **kwargs)
+
+class DisplayUnsigned8(DisplayUnsigned):
+    def __init__(self, **kwargs):
+        super().__init__(bits=8, show_all=False, **kwargs)
+
+class DisplayUnsigned16(DisplayUnsigned):
+    def __init__(self, **kwargs):
+        super().__init__(bits=16, show_all=False, **kwargs)
+
+class DisplayUnsigned32(DisplayUnsigned):
+    def __init__(self, **kwargs):
+        super().__init__(bits=32, show_all=False, **kwargs)
+
+class DisplaySigned(BulletSlide):
+    def __init__(self, bits, show_all=False, **kwargs):
+
+        self.bits = bits
+        self.show_all = show_all
+
+        min_val = -(2 ** (bits - 1))
+        max_val = (2 ** (bits - 1)) - 1
+
+        def fmt(i):
+            if i >= 0:
+                return rf"${i} \rightarrow {i:0{bits}b}$"
+            return rf"${i} \rightarrow {format((1 << bits) + i, f'0{bits}b')}$"
+
+        if show_all:
+            points = [
+                fmt(i)
+                for i in range(min_val, max_val + 1)
+            ]
+        else:
+            start = [fmt(i) for i in range(min_val, min_val + 2)]
+
+            middle = [fmt(-1), fmt(0)]
+
+            end = [fmt(i) for i in range(max_val - 1, max_val + 1)]
+
+            points = (
+                start +
+                [r"$\dots$"] +
+                [r"$\dots$"] +
+                middle +
+                [r"$\dots$"] +
+                [r"$\dots$"] +
+                end
+            )
+
+        super().__init__(
+            header_text=f"Signed Number Representation -- {bits} Bits",
+            text_color=BLACK,
+            points = points,
+            bullet_symbol = "",
+            **kwargs
+        )
+
+    def present_points(self, run_time=1):
+        self.play(Create(self.bullets), run_time=run_time)
+
+class DisplaySigned4(DisplaySigned):
+    def __init__(self, **kwargs):
+        super().__init__(bits=4, show_all=True, **kwargs)
+
+class DisplaySigned8(DisplaySigned):
+    def __init__(self, **kwargs):
+        super().__init__(bits=8, show_all=False, **kwargs)
+
+class DisplaySigned16(DisplaySigned):
+    def __init__(self, **kwargs):
+        super().__init__(bits=16, show_all=False, **kwargs)
+
+class DisplaySigned32(DisplaySigned):
+    def __init__(self, **kwargs):
+        super().__init__(bits=32, show_all=False, **kwargs)
 
 class Section_SignedRepresentation(SectionSlide):
     def __init__(self, **kwargs):
