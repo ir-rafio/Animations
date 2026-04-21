@@ -39,3 +39,26 @@ class TableOfContents(BulletSlide):
             ],
             **kwargs
         )
+
+class Section_BinaryNumberSystem(SectionSlide):
+    def __init__(self, **kwargs):
+        super().__init__(
+            section_title=r"Binary\\Number\\System",
+            **kwargs
+        )
+
+class BinaryNumberSystem(BulletSlide):
+    def __init__(self, **kwargs):
+        super().__init__(
+            header_text="Binary Number System",
+            text_color=BLACK,
+            points = [
+                r"Binary number system is a positional number system with a \textbf{base} of $2$.",
+                r"It uses $2$ symbols: $0$ and $1$. $0$ represents \texttt{OFF} and $1$ represents \texttt{ON}.",
+                r"Each position of a binary number has a different \textbf{positional weight or significance}.",
+                r"Binary number system provides a \textbf{one-to-one mapping} between numbers and sequences of bits.",
+                r"For $n$ bits, there are $2^n$ \textbf{different bit sequences} which can represent $2^n$ \textbf{different numbers}.",
+                r"For example, with $4$ bits, $16$ different numbers can be represented."
+            ],
+            **kwargs
+        )
