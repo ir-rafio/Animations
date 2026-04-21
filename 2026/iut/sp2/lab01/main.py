@@ -437,3 +437,210 @@ class SignedRepresentation2(BulletSlide):
             ],
             **kwargs
         )
+        
+class DiscoverNegatives(DisplaySigned4):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+        self.nxt_note = VGroup(
+            Tex(
+                r"Result of going to the \textbf{next} number (adding $1$) in binary:",
+                font_size=32,
+                color=self.text_color
+            ),
+            Tex(r"-- Trailing $1$s become $0$.", font_size=32, color=self.text_color),
+            Tex(r"-- The next $0$ becomes $1$.", font_size=32, color=self.text_color),
+        ).arrange(DOWN, aligned_edge=LEFT, buff=0.3)
+
+        self.nxt_note.next_to(self.bullets, RIGHT, aligned_edge=UP, buff=0.8)
+
+        self.prv_note = VGroup(
+            Tex(
+                r"Result of going to the \textbf{previous} number (subtracting $1$) in binary:",
+                font_size=32,
+                color=self.text_color
+            ),
+            Tex(r"-- Trailing $0$s become $1$.", font_size=32, color=self.text_color),
+            Tex(r"-- The next $1$ becomes $0$.", font_size=32, color=self.text_color),
+        ).arrange(DOWN, aligned_edge=LEFT, buff=0.3)
+
+        self.prv_note.align_to(self.nxt_note, LEFT)
+        self.prv_note.to_edge(DOWN)
+
+    def present_points(self, run_time=1):
+        positives = VGroup(*[b.copy() for b in self.bullets[8:]])
+
+        first_part = positives[:5]
+        last_part = positives[5:]
+
+        for bullet in first_part:
+            self.play(Write(bullet), run_time=run_time)
+            self.next_slide()
+
+        self.play(Write(self.nxt_note), run_time=run_time)
+        self.next_slide()
+
+        self.play(Write(VGroup(*last_part)), run_time=run_time)
+        self.next_slide()
+
+        self.play(Unwrite(positives), run_time=run_time)
+        self.next_slide()
+
+        reversed_bullets = list(reversed(self.bullets))
+
+        first_rev = reversed_bullets[:5]
+        middle_rev = reversed_bullets[5:10]
+        last_rev = reversed_bullets[10:]
+
+        for bullet in first_rev:
+            self.play(Write(bullet), run_time=run_time)
+            self.next_slide()
+
+        self.play(Write(self.prv_note), run_time=run_time)
+        self.next_slide()
+
+        for bullet in middle_rev:
+            self.play(Write(bullet), run_time=run_time)
+            self.next_slide()
+
+        self.play(Write(VGroup(*last_rev)), run_time=run_time)
+        self.next_slide()
+    
+    def cleanup(self, run_time=1):
+      self.play(
+          Unwrite(self.bullets),
+          Unwrite(self.nxt_note),
+          Unwrite(self.prv_note),
+          run_time=run_time
+      )
+
+class BinaryComplement(BulletSlide):
+    def __init__(self, **kwargs):
+        points = [
+            r"Notice the divider line between the negative and non-negative numbers.",
+            r"Each pair of numbers that are at the same distance from this divider are \textbf{complement numbers}.",
+            r"The complement of a number $x$ is denoted as $\mathord{\sim}x$.",
+            r"Notice that the complement of a number can be obtained by replacing all $1$s with $0$s and vice versa.",
+            r"Notice that $0$ is on one side of the divider, not on the divider. Because of this, $\mathord{\sim}x \ne -x$.",
+            r"Since the divider is just above $0$, $\mathord{\sim}x = -x - 1$. So, $-x = \mathord{\sim}x + 1$.",
+            r"Another way to think about it:\\ If you add $x$ and $\mathord{\sim}x$, you get all $1$s, which is $-1$.",
+            r"So, $x + \mathord{\sim}x = -1$, thus $\mathord{\sim}x = -1 - x$ and $-x = \mathord{\sim}x + 1$."
+        ]
+
+        super().__init__(
+            header_text="Signed Number Representation",
+            text_color=BLACK,
+            points=points,
+            **kwargs
+        )
+
+        self._build_number_bullets()
+        self._setup_point_bullets()
+
+        self._position_number_bullets()
+        self._fit_point_bullets()
+        self._position_point_bullets()
+
+        self._create_divider()
+
+    def fit_points_in_frame(self):
+        pass
+
+    def _build_number_bullets(self):
+        bits = 4
+        min_val = -(2 ** (bits - 1))
+        max_val = (2 ** (bits - 1)) - 1
+
+        def fmt(i):
+            if i >= 0:
+                return rf"${i} \rightarrow {i:0{bits}b}$"
+            return rf"${i} \rightarrow {format((1 << bits) + i, f'0{bits}b')}$"
+
+        self.number_bullets = VGroup(*[
+            Tex(fmt(i), color=self.text_color)
+            for i in range(min_val, max_val + 1)
+        ]).arrange(DOWN, aligned_edge=LEFT, buff=0.4)
+
+        max_height = config.frame_height - 2 - self.header_mob.height
+        if self.number_bullets.height > max_height:
+            self.number_bullets.scale_to_fit_height(max_height)
+
+    def _setup_point_bullets(self):
+        self.point_bullets = self.bullets
+
+    def _position_number_bullets(self):
+        self.number_bullets.next_to(
+            self.header_mob,
+            DOWN,
+            aligned_edge=LEFT,
+            buff=0.8
+        )
+
+    def _fit_point_bullets(self):
+        total_width = config.frame_width - 2
+        left_w = self.number_bullets.width
+        available_right = total_width - left_w - 1
+
+        if self.point_bullets.width > available_right:
+            self.point_bullets.scale_to_fit_width(available_right)
+
+        max_height = config.frame_height - 2 - self.header_mob.height
+        if self.point_bullets.height > max_height:
+            self.point_bullets.scale_to_fit_height(max_height)
+
+    def _position_point_bullets(self):
+        self.point_bullets.next_to(
+            self.number_bullets,
+            RIGHT,
+            aligned_edge=UP,
+            buff=1
+        )
+
+    def _create_divider(self):
+        top = self.number_bullets[7].get_bottom()
+        bottom = self.number_bullets[8].get_top()
+
+        y = (top + bottom) / 2
+
+        left = self.number_bullets.get_left()
+        right = self.number_bullets.get_right()
+
+        self.divider = Line(
+            [left[0], y[1], 0],
+            [right[0], y[1], 0],
+            color=BLACK
+        )
+    
+    def present_points(self, run_time=1):
+        self.play(Create(self.number_bullets), run_time=run_time)
+        self.next_slide(auto_next=True)
+
+        self.play(Create(self.divider), run_time=run_time)
+        self.next_slide()
+
+        self.play(Write(self.point_bullets[0]), run_time=run_time)
+        self.next_slide(auto_next=True)
+
+        self.play(Write(self.point_bullets[1]), run_time=run_time)
+        self.next_slide(loop=True)
+
+        for i in range(8):
+            self.play(
+                Indicate(self.number_bullets[7 - i]),
+                Indicate(self.number_bullets[8 + i]),
+                run_time=0.5
+            )
+
+        self.next_slide()
+
+        for bullet in self.point_bullets[2:]:
+            self.play(Write(bullet), run_time=run_time)
+            self.next_slide()
+
+    def cleanup(self, run_time=1):
+        self.play(
+            Unwrite(self.number_bullets),
+            Unwrite(self.point_bullets),
+            Uncreate(self.divider),
+            run_time=run_time
+        )

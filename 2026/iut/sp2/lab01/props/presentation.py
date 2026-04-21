@@ -23,6 +23,64 @@ def add_header_underline(scene, margin=0.5, text_color=WHITE):
 
     scene.add(scene.header_underline)
 
+class SectionSlide(Slide):
+    def __init__(
+        self,
+        section_title="",
+        circle_color=GREEN_E,
+        text_color=WHITE,
+        radius=3,
+        **kwargs
+    ):
+        super().__init__(**kwargs)
+        self.wait_time_between_slides = 0.1
+
+        self.section_title = rf"\textbf{{{section_title}}}"
+        self.circle_color = circle_color
+        self.text_color = text_color
+        self.radius = radius
+
+        self.build_circle()
+        self.build_title()
+        self.fit_text_in_circle()
+        self.position_elements()
+
+    def construct(self):
+        self.present_section()
+        self.next_slide()
+        self.cleanup()
+
+    def build_circle(self):
+        self.circle = Circle(radius=self.radius)
+        self.circle.set_fill(self.circle_color, opacity=1)
+        self.circle.set_stroke(width=0)
+
+    def build_title(self):
+        self.title = Tex(self.section_title, color=self.text_color)
+
+    def fit_text_in_circle(self):
+        scale_factor = math.sqrt(2) * 0.9
+        max_width = self.radius * scale_factor
+        max_height = self.radius * scale_factor
+
+        self.title.scale_to_fit_width(max_width)
+
+        if self.title.height > max_height:
+            self.title.scale_to_fit_height(max_height)
+
+    def position_elements(self):
+        self.group = VGroup(self.circle, self.title)
+        self.title.move_to(self.circle.get_center())
+
+        self.group.move_to(ORIGIN)
+
+    def present_section(self, run_time=2):
+        self.play(FadeIn(self.circle), run_time=run_time / 2)
+        self.play(Write(self.title), run_time=run_time / 2)
+    
+    def cleanup(self, run_time=1):
+      self.play(FadeOut(self.group), run_time=run_time)
+
 class BulletSlide(Slide):
     def __init__(
             self,
@@ -89,64 +147,6 @@ class BulletSlide(Slide):
           Unwrite(self.bullets),
           run_time=run_time
       )
-
-class SectionSlide(Slide):
-    def __init__(
-        self,
-        section_title="",
-        circle_color=GREEN_E,
-        text_color=WHITE,
-        radius=3,
-        **kwargs
-    ):
-        super().__init__(**kwargs)
-        self.wait_time_between_slides = 0.1
-
-        self.section_title = rf"\textbf{{{section_title}}}"
-        self.circle_color = circle_color
-        self.text_color = text_color
-        self.radius = radius
-
-        self.build_circle()
-        self.build_title()
-        self.fit_text_in_circle()
-        self.position_elements()
-
-    def construct(self):
-        self.present_section()
-        self.next_slide()
-        self.cleanup()
-
-    def build_circle(self):
-        self.circle = Circle(radius=self.radius)
-        self.circle.set_fill(self.circle_color, opacity=1)
-        self.circle.set_stroke(width=0)
-
-    def build_title(self):
-        self.title = Tex(self.section_title, color=self.text_color)
-
-    def fit_text_in_circle(self):
-        scale_factor = math.sqrt(2) * 0.9
-        max_width = self.radius * scale_factor
-        max_height = self.radius * scale_factor
-
-        self.title.scale_to_fit_width(max_width)
-
-        if self.title.height > max_height:
-            self.title.scale_to_fit_height(max_height)
-
-    def position_elements(self):
-        self.group = VGroup(self.circle, self.title)
-        self.title.move_to(self.circle.get_center())
-
-        self.group.move_to(ORIGIN)
-
-    def present_section(self, run_time=2):
-        self.play(FadeIn(self.circle), run_time=run_time / 2)
-        self.play(Write(self.title), run_time=run_time / 2)
-    
-    def cleanup(self, run_time=1):
-      self.play(FadeOut(self.group), run_time=run_time)
 
 class MathExpansionSlide(Slide):
     def __init__(
