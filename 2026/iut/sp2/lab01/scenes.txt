@@ -3,7 +3,8 @@ Introduction
 TableOfContents
 Section_BinaryNumberSystem
 BinaryNumberSystem
-DisplaySequence
+DisplaySequences
+DecimalSymbols
 DecimalCounting
 DecimalPositions
 BinaryCounting

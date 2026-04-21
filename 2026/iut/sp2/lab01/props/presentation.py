@@ -24,7 +24,14 @@ def add_header_underline(scene, margin=0.5, text_color=WHITE):
     scene.add(scene.header_underline)
 
 class BulletSlide(Slide):
-    def __init__(self, header_text="", points=None, text_color=WHITE, **kwargs):
+    def __init__(
+            self,
+            header_text="",
+            points=None,
+            text_color=WHITE,
+            bullet_symbol=r"$\square$",
+            **kwargs
+        ):
         super().__init__(**kwargs)
         self.wait_time_between_slides = 0.1
 
@@ -34,7 +41,7 @@ class BulletSlide(Slide):
 
         add_header(self, header_text, text_color=self.text_color)
 
-        self.build_points()
+        self.build_points(bullet_symbol)
         self.fit_points_in_frame()
         self.position_points()
 
@@ -43,9 +50,12 @@ class BulletSlide(Slide):
         self.next_slide()
         self.cleanup()
 
-    def build_points(self):
+    def build_points(self, bullet_symbol):
         self.bullets = VGroup(*[
-            Tex(r"$\square$ " + p, color=self.text_color)
+            VGroup(
+                Tex(bullet_symbol, color=self.text_color),
+                Tex(p, color=self.text_color)
+            ).arrange(RIGHT, buff=0.3)
             for p in self.points
         ])
 
@@ -137,3 +147,115 @@ class SectionSlide(Slide):
     
     def cleanup(self, run_time=1):
       self.play(FadeOut(self.group), run_time=run_time)
+
+class MathExpansionSlide(Slide):
+    def __init__(
+        self,
+        header_text="",
+        lhs_builder="",
+        rhs_builders=None,
+        comparison_symbols=None,
+        text_color=WHITE,
+        **kwargs
+    ):
+        super().__init__(**kwargs)
+
+        self.wait_time_between_slides = 0.1
+        self.text_color = text_color
+
+        lhs_builder = lhs_builder
+        rhs_builders = rhs_builders or []
+        comparison_symbols = comparison_symbols or []
+
+        if len(rhs_builders) == 0:
+            raise ValueError("rhs_builders must not be empty")
+
+        if len(comparison_symbols) != len(rhs_builders):
+            raise ValueError("comparison_symbols must match rhs_builders length")
+
+        add_header(self, header_text, text_color=self.text_color)
+
+        self.build_expressions(lhs_builder, rhs_builders, comparison_symbols)
+        self.fit_expressions()
+        self.position_expressions()
+
+    def build_expressions(self, lhs_builder, rhs_builders, comparison_symbols):
+        self.lhs = MathTex(*lhs_builder, color=self.text_color)
+
+        self.rhs = VGroup(*[
+            MathTex(*step, color=self.text_color)
+            for step in rhs_builders
+        ])
+
+        self.rhs_prev = VGroup(
+            MathTex(*lhs_builder, color=self.text_color),
+            *[
+                MathTex(*step, color=self.text_color)
+                for step in rhs_builders[:-1]
+            ]
+        )
+
+        self.symbols = VGroup(*[
+            MathTex(sym, color=self.text_color)
+            for sym in comparison_symbols
+        ])
+
+        for i in range(len(self.rhs)):
+            if i == 0:
+                self.symbols[i].next_to(self.lhs, RIGHT, buff=0.4)
+
+                self.rhs[i].next_to(self.symbols[i], RIGHT, buff=0.4)
+                self.rhs[i].align_to(self.lhs, UP)
+
+                self.rhs_prev[i].align_to(self.rhs[i], LEFT)
+                self.rhs_prev[i].align_to(self.rhs[i], UP)
+
+            else:
+                self.rhs[i].next_to(self.rhs[i - 1], DOWN, aligned_edge=LEFT, buff=0.6)
+
+                self.symbols[i].next_to(self.rhs[i], LEFT, buff=0.4)
+
+                self.rhs_prev[i].align_to(self.rhs[i], LEFT)
+                self.rhs_prev[i].align_to(self.rhs[i], UP)
+
+        self.expressions = VGroup(self.lhs, self.symbols, self.rhs, self.rhs_prev)
+
+    def fit_expressions(self):
+        max_width = config.frame_width - 1
+        max_height = config.frame_height - 2 - self.header_mob.height
+
+        self.expressions.scale_to_fit_height(max_height)
+
+        if self.expressions.width > max_width:
+            self.expressions.scale_to_fit_width(max_width)
+
+    def position_expressions(self):
+        self.expressions.next_to(
+            self.header_mob,
+            DOWN,
+            aligned_edge=LEFT,
+            buff=0.8
+        )
+
+    def construct(self):
+        self.present_expressions()
+        self.next_slide()
+        self.cleanup()
+
+    def present_expressions(self, run_time=1):
+        self.play(Write(self.lhs), run_time=run_time)
+        self.next_slide()
+
+        for sym, old_expr, new_expr in zip(self.symbols, self.rhs_prev, self.rhs):
+            self.play(Write(sym), run_time=run_time / 2)
+            self.play(Write(old_expr), run_time=run_time / 2)
+            self.next_slide()
+
+            self.play(
+                TransformMatchingTex(old_expr, new_expr),
+                run_time=run_time
+            )
+            self.next_slide()
+
+    def cleanup(self, run_time=1):
+        self.play(Unwrite(self.expressions), run_time=run_time)

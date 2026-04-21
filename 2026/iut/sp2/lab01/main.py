@@ -1,6 +1,18 @@
 from manim import *
 from manim_slides import Slide
 from props.presentation import *
+from props.digitbox import *
+
+colors = [
+    GREEN_E,
+    YELLOW,
+    BLUE_E,
+    RED_A,
+    PURPLE_E,
+    TEAL_A,
+    DARK_BROWN,
+    ORANGE
+]
 
 class TitleSlide(SectionSlide):
     def __init__(self, **kwargs):
@@ -62,3 +74,234 @@ class BinaryNumberSystem(BulletSlide):
             ],
             **kwargs
         )
+
+class DisplaySequences(BulletSlide):
+    def __init__(self, **kwargs):
+        super().__init__(
+            header_text="Binary Number System",
+            text_color=BLACK,
+            points = [rf"${i:04b}$" for i in range(16)],
+            bullet_symbol = r"$? \rightarrow$",
+            **kwargs
+        )
+
+    def present_points(self, run_time=1):
+        self.play(Create(self.bullets), run_time=run_time)
+    
+class DecimalSymbols(Slide):
+    def construct(self):
+        self.wait_time_between_slides = 0.1
+        add_header(self, "Binary Number System", BLACK)
+
+        symbols_text = Text("Symbols in Base-10", color=BLACK)
+        symbols_text.scale_to_fit_height(1)
+        symbols_text.next_to(self.header_underline, DOWN, buff=0.5)
+        symbols_text.align_to(self.header_underline, LEFT)
+
+        symbols_group = VGroup()
+        for i in range(10):
+            box = DigitBox(
+                base=10,
+                value=i,
+                height=1,
+                bubble_color=colors[0],
+                bubble_layout=GridLayout(9),
+                dot_layout=None,
+                stroke_color=BLACK
+            )
+            digit = DecimalNumber(i, num_decimal_places=0, color=BLACK)
+            digit.scale_to_fit_height(1)
+
+            digit_group = VGroup(box, digit)
+            digit_group.arrange(RIGHT, buff=0.25)
+            symbols_group.add(digit_group)
+        
+        symbols_group.arrange_in_grid(cols=5, buff=(0.75, 1))
+        symbols_group.next_to(symbols_text, DOWN, buff=1)
+        symbols_group.align_to(symbols_text, LEFT)
+
+        self.play(Create(symbols_text), Create(symbols_group))
+
+        self.next_slide()
+
+        self.play(Uncreate(symbols_group), Uncreate(symbols_text))
+        self.wait()
+    
+class DecimalCounting(Slide):
+    def construct(self):
+        self.wait_time_between_slides = 0.1
+        add_header(self, "Binary Number System", BLACK)
+        
+        nb = NumberBox(
+            n=3,
+            base=10,
+            value=0,
+            height=2,
+            colors=colors[:3],
+            stroke_color=BLACK
+        )
+        nb.next_to(self.header_underline, DOWN, 0.5)
+
+        self.play(FadeIn(nb))
+        self.next_slide()
+
+        for _ in range(12):
+            self.play(nb.animate.increment())
+            self.next_slide()
+
+        self.play(nb.animate_to_value(19))
+        self.next_slide()
+
+        self.play(nb.animate.increment())
+        self.next_slide()
+
+        self.play(nb.animate_to_value(99))
+        self.next_slide()
+
+        self.play(nb.animate.increment())
+        self.next_slide()
+
+        self.play(nb.animate.increment())
+        self.next_slide()
+
+        self.play(nb.animate_to_value(125))
+        self.next_slide(loop=True)
+
+        self.play(Indicate(nb.weights))
+        self.next_slide()
+
+        self.play(nb.animate_to_value(354))
+        self.next_slide()
+
+        self.play(FadeOut(nb))
+        self.wait()
+
+class DecimalPositions(MathExpansionSlide):
+    def __init__(self, **kwargs):
+        super().__init__(
+            header_text="Binary Number System",
+            lhs_builder=["3", "5", "4"],
+            rhs_builders=[
+                [
+                    "3", r"\times", "100", "+",
+                    "5", r"\times", "10", "+",
+                    "4"
+                ],
+                [
+                    "3", "00", "+", "5", "0", "+", "4"
+                ],
+                [
+                    "3", "5", "4"
+                ]
+            ],
+            comparison_symbols=[
+                r"\rightarrow",
+                "=",
+                "="
+            ],
+            text_color=BLACK,
+            **kwargs
+        )
+    
+class BinaryCounting(Slide):
+    def construct(self):
+        self.wait_time_between_slides = 0.1
+        add_header(self, "Binary Number System", BLACK)
+        
+        base = 2
+        bubble_layout = GridLayout(base - 1)
+
+        nb = NumberBox(
+            n=4,
+            base=base,
+            value=0,
+            height=2,
+            colors=colors[:4],
+            bubble_layout=bubble_layout,
+            dot_layout=RadialLayout(2, angle_offsets=[PI / 4]),
+            stroke_color=BLACK,
+            show_leading_zeroes=True
+        )
+        nb.to_edge(LEFT)
+
+        symbols_text = Text("Symbols", color=BLACK)
+        symbols_text.scale_to_fit_height(1)
+        symbols_text.next_to(self.header_underline, DOWN, buff=0.5)
+        symbols_text.align_to(self.header_underline, RIGHT)
+
+        symbols_group = VGroup()
+        for i in range(2):
+            box = DigitBox(
+                base=base,
+                value=i,
+                height=1.5,
+                bubble_color=colors[0],
+                bubble_layout=bubble_layout,
+                dot_layout=None,
+                stroke_color=BLACK
+            )
+            digit = DecimalNumber(i, num_decimal_places=0, color=BLACK)
+            digit.scale_to_fit_height(1)
+
+            digit_group = VGroup(box, digit)
+            digit_group.arrange(RIGHT, buff=0.5)
+            symbols_group.add(digit_group)
+        
+        symbols_group.arrange(DOWN, buff=0.5)
+        symbols_group.next_to(symbols_text, DOWN, buff=0.5)
+        symbols_group.align_to(symbols_text, RIGHT)
+
+        self.play(Create(symbols_text), Create(symbols_group))
+
+        self.next_slide()
+
+        self.play(FadeIn(nb))
+        self.next_slide()
+
+        for _ in range(15):
+            self.play(nb.animate.increment())
+            self.next_slide()
+
+        self.play(FadeOut(nb), Uncreate(symbols_group), Uncreate(symbols_text))
+        self.wait()
+
+class BinaryPositions(MathExpansionSlide):
+    def __init__(self, **kwargs):
+        super().__init__(
+            header_text="Binary Number System",
+            lhs_builder=["1", "1", "0", "1"],
+            rhs_builders=[
+                [
+                    "1", r"\times", "8", "+",
+                    "1", r"\times", "4", "+",
+                    "0", r"\times", "2", "+",
+                    "1"
+                ],
+                [
+                    "8", "+", "4", "+", "1"
+                ],
+                [
+                    "13"
+                ]
+            ],
+            comparison_symbols=[
+                r"\rightarrow",
+                "=",
+                "="
+            ],
+            text_color=BLACK,
+            **kwargs
+        )
+
+class DisplayUnsigned(BulletSlide):
+    def __init__(self, **kwargs):
+        super().__init__(
+            header_text="Binary Number System",
+            text_color=BLACK,
+            points = [rf"${i} \rightarrow {i:04b}$" for i in range(16)],
+            bullet_symbol = "",
+            **kwargs
+        )
+
+    def present_points(self, run_time=1):
+        self.play(Create(self.bullets), run_time=run_time)
