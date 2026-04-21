@@ -523,8 +523,7 @@ class BinaryComplement(BulletSlide):
             r"Notice that the complement of a number can be obtained by replacing all $1$s with $0$s and vice versa.",
             r"Notice that $0$ is on one side of the divider, not on the divider. Because of this, $\mathord{\sim}x \ne -x$.",
             r"Since the divider is just above $0$, $\mathord{\sim}x = -x - 1$. So, $-x = \mathord{\sim}x + 1$.",
-            r"Another way to think about it:\\ If you add $x$ and $\mathord{\sim}x$, you get all $1$s, which is $-1$.",
-            r"So, $x + \mathord{\sim}x = -1$, thus $\mathord{\sim}x = -1 - x$ and $-x = \mathord{\sim}x + 1$."
+            r"Another way to think about it:\\ If you add $x$ and $\mathord{\sim}x$, you get all $1$s, which is $-1$.\\ So, $x + \mathord{\sim}x = -1$, thus $\mathord{\sim}x = -1 - x$ and $-x = \mathord{\sim}x + 1$."
         ]
 
         super().__init__(
@@ -643,4 +642,25 @@ class BinaryComplement(BulletSlide):
             Unwrite(self.point_bullets),
             Uncreate(self.divider),
             run_time=run_time
+        )
+
+class Section_BitwiseOperators(SectionSlide):
+    def __init__(self, **kwargs):
+        super().__init__(
+            section_title=r"Bitwise\\Operators",
+            **kwargs
+        )
+
+class BitwiseOperators(BulletSlide):
+    def __init__(self, **kwargs):
+        super().__init__(
+            header_text="Bitwise Operators",
+            text_color=BLACK,
+            points = [
+                r"Bitwise operators are operators that operate on \textbf{individual bits} of an integer.",
+                r"Each bit is processed \textbf{independently} (the result of one bit does not affect other bits).",
+                r"Bitwise operators treat integer variables like \textbf{boolean arrays}.",
+                r"Bitwise operators directly map to low-level hardware operations and are extremely fast."
+            ],
+            **kwargs
         )
