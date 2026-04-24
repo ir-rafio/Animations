@@ -2,24 +2,27 @@ from manim import *
 from manim_slides import Slide
 from props.presentation import *
 from props.digitbox import *
+from props.academia import *
+from lab_info import *
 
-colors = [
-    GREEN_E,
-    YELLOW,
-    BLUE_E,
-    RED_A,
-    PURPLE_E,
-    TEAL_A,
-    DARK_BROWN,
-    ORANGE
-]
+sans_template = TexTemplate()
+sans_template.add_to_preamble(r"\renewcommand{\familydefault}{\sfdefault}")
+Tex.set_default(tex_template=sans_template)
 
-class TitleSlide(SectionSlide):
+class Title_Bits(TitleSlide):
     def __init__(self, **kwargs):
         super().__init__(
-            section_title = r"Title\\Slide",
+            lecture_number=lecture_number,
+            lecture_title=lecture_title,
+            course_code=course_code,
+            course_title=course_title,
+            course_teachers=course_teachers,
+            text_color1=BLACK,
+            text_color2=DARK_GREY,
             **kwargs
         )
+
+        add_footer(self)
 
 class Introduction(BulletSlide):
     def __init__(self, **kwargs):
@@ -28,7 +31,7 @@ class Introduction(BulletSlide):
             text_color=BLACK,
             points = [
                 r"Computers use binary as their fundamental language.",
-                r"All data in a computer (numbers, text, images, audio \& video, programs, even the entire internet) is represented using bits.",
+                r"All data in computers (numbers, text, images, audio \& video, programs, even the entire internet) is represented using bits.",
                 r"Although a single bit can only represent two states (ON/OFF), complex information can be represented using sequences of bits.",
                 r"For representing complex information, all users must agree upon some standards.",
                 r"Numbers are represented using a positional number system.",
@@ -37,6 +40,8 @@ class Introduction(BulletSlide):
             ],
             **kwargs
         )
+
+        add_footer(self)
 
 class TableOfContents(BulletSlide):
     def __init__(self, **kwargs):
@@ -52,12 +57,16 @@ class TableOfContents(BulletSlide):
             **kwargs
         )
 
+        add_footer(self)
+
 class Section_BinaryNumberSystem(SectionSlide):
     def __init__(self, **kwargs):
         super().__init__(
             section_title=r"Binary\\Number\\System",
             **kwargs
         )
+
+        add_footer(self)
 
 class BinaryNumberSystem(BulletSlide):
     def __init__(self, **kwargs):
@@ -75,6 +84,8 @@ class BinaryNumberSystem(BulletSlide):
             **kwargs
         )
 
+        add_footer(self)
+
 class DisplaySequences(BulletSlide):
     def __init__(self, **kwargs):
         super().__init__(
@@ -85,6 +96,8 @@ class DisplaySequences(BulletSlide):
             **kwargs
         )
 
+        add_footer(self)
+
     def present_points(self, run_time=1):
         self.play(Create(self.bullets), run_time=run_time)
     
@@ -92,6 +105,7 @@ class DecimalSymbols(Slide):
     def construct(self):
         self.wait_time_between_slides = 0.1
         add_header(self, "Binary Number System", BLACK)
+        add_footer(self)
 
         symbols_text = Text("Symbols in Base-10", color=BLACK)
         symbols_text.scale_to_fit_height(1)
@@ -104,7 +118,7 @@ class DecimalSymbols(Slide):
                 base=10,
                 value=i,
                 height=1,
-                bubble_color=colors[0],
+                bubble_color=GREEN,
                 bubble_layout=GridLayout(9),
                 dot_layout=None,
                 stroke_color=BLACK
@@ -131,6 +145,18 @@ class DecimalCounting(Slide):
     def construct(self):
         self.wait_time_between_slides = 0.1
         add_header(self, "Binary Number System", BLACK)
+        add_footer(self)
+
+        colors = [
+            GREEN_E,
+            YELLOW,
+            BLUE_E,
+            RED_A,
+            PURPLE_E,
+            TEAL_A,
+            DARK_BROWN,
+            ORANGE
+        ]
         
         nb = NumberBox(
             n=3,
@@ -202,12 +228,25 @@ class DecimalPositions(MathExpansionSlide):
             text_color=BLACK,
             **kwargs
         )
+        
+        add_footer(self)
     
 class BinaryCounting(Slide):
     def construct(self):
         self.wait_time_between_slides = 0.1
         add_header(self, "Binary Number System", BLACK)
-        
+        add_footer(self)
+
+        colors = [
+            GREEN_E,
+            YELLOW,
+            BLUE_E,
+            RED_A,
+            PURPLE_E,
+            TEAL_A,
+            DARK_BROWN,
+            ORANGE
+        ]
         base = 2
         bubble_layout = GridLayout(base - 1)
 
@@ -292,10 +331,11 @@ class BinaryPositions(MathExpansionSlide):
             text_color=BLACK,
             **kwargs
         )
+        
+        add_footer(self)
 
 class DisplayUnsigned(BulletSlide):
     def __init__(self, bits, show_all=False, **kwargs):
-
         self.bits = bits
         self.show_all = show_all
 
@@ -321,6 +361,8 @@ class DisplayUnsigned(BulletSlide):
             bullet_symbol = "",
             **kwargs
         )
+        
+        add_footer(self)
 
     def present_points(self, run_time=1):
         self.play(Create(self.bullets), run_time=run_time)
@@ -343,7 +385,6 @@ class DisplayUnsigned32(DisplayUnsigned):
 
 class DisplaySigned(BulletSlide):
     def __init__(self, bits, show_all=False, **kwargs):
-
         self.bits = bits
         self.show_all = show_all
 
@@ -384,6 +425,8 @@ class DisplaySigned(BulletSlide):
             bullet_symbol = "",
             **kwargs
         )
+        
+        add_footer(self)
 
     def present_points(self, run_time=1):
         self.play(Create(self.bullets), run_time=run_time)
@@ -410,6 +453,8 @@ class Section_SignedRepresentation(SectionSlide):
             section_title=r"Signed\\Number\\Representation",
             **kwargs
         )
+        
+        add_footer(self)
 
 class SignedRepresentation1(BulletSlide):
     def __init__(self, **kwargs):
@@ -424,6 +469,8 @@ class SignedRepresentation1(BulletSlide):
             ],
             **kwargs
         )
+        
+        add_footer(self)
 
 class SignedRepresentation2(BulletSlide):
     def __init__(self, **kwargs):
@@ -437,6 +484,8 @@ class SignedRepresentation2(BulletSlide):
             ],
             **kwargs
         )
+        
+        add_footer(self)
         
 class DiscoverNegatives(DisplaySigned4):
     def __init__(self, **kwargs):
@@ -464,8 +513,9 @@ class DiscoverNegatives(DisplaySigned4):
             Tex(r"-- The next $1$ becomes $0$.", font_size=32, color=self.text_color),
         ).arrange(DOWN, aligned_edge=LEFT, buff=0.3)
 
-        self.prv_note.align_to(self.nxt_note, LEFT)
-        self.prv_note.to_edge(DOWN)
+        self.prv_note.next_to(self.nxt_note, DOWN, buff=1, aligned_edge=LEFT)
+        
+        add_footer(self)
 
     def present_points(self, run_time=1):
         positives = VGroup(*[b.copy() for b in self.bullets[8:]])
@@ -532,6 +582,8 @@ class BinaryComplement(BulletSlide):
             points=points,
             **kwargs
         )
+        
+        add_footer(self)
 
         self._build_number_bullets()
         self._setup_point_bullets()
@@ -650,6 +702,8 @@ class Section_BitwiseOperators(SectionSlide):
             section_title=r"Bitwise\\Operators",
             **kwargs
         )
+        
+        add_footer(self)
 
 class BitwiseOperators(BulletSlide):
     def __init__(self, **kwargs):
@@ -665,6 +719,8 @@ class BitwiseOperators(BulletSlide):
             ],
             **kwargs
         )
+        
+        add_footer(self)
 
 class BitwiseOR(BulletSlide):
     def __init__(self, **kwargs):
@@ -680,6 +736,8 @@ class BitwiseOR(BulletSlide):
             ],
             **kwargs
         )
+        
+        add_footer(self)
 
 
 class BitwiseAND(BulletSlide):
@@ -696,6 +754,8 @@ class BitwiseAND(BulletSlide):
             ],
             **kwargs
         )
+        
+        add_footer(self)
 
 
 class BitwiseXOR(BulletSlide):
@@ -713,6 +773,8 @@ class BitwiseXOR(BulletSlide):
             ],
             **kwargs
         )
+        
+        add_footer(self)
 
 class BitwiseNOT(BulletSlide):
     def __init__(self, **kwargs):
@@ -728,6 +790,8 @@ class BitwiseNOT(BulletSlide):
             ],
             **kwargs
         )
+        
+        add_footer(self)
 
 class BitwiseShift(BulletSlide):
     def __init__(self, **kwargs):
@@ -743,124 +807,117 @@ class BitwiseShift(BulletSlide):
             ],
             **kwargs
         )
+        
+        add_footer(self)
 
 class BitwiseOperatorDemo(Slide):
-    def __init__(self, operator_name, op_func, text_color=WHITE, **kwargs):
+    def __init__(self, operator_name, op_func, op_sym, text_color=WHITE, **kwargs):
         super().__init__(**kwargs)
         self.wait_time_between_slides = 0.1
 
         self.operator_name = operator_name
         self.op_func = op_func
-
-        self.bits = 8
-        self.a = 5
-        self.b = 6
-
+        self.op_sym = op_sym
         self.text_color = text_color
 
+        self.num_bits = 8
+        self.value_a = 5
+        self.value_b = 6
+
         add_header(self, f"Bitwise Operators --- {self.operator_name}", text_color=self.text_color)
-        self._build_left_side()
+        add_footer(self)
+
+        self._build_operands()
         self._build_truth_table()
-        self._layout()
+        self._arrange_layout()
 
-    def _build_left_side(self):
-        self.a_value = Tex("5", color=self.text_color)
-        self.a_arrow = Tex(r"$\rightarrow$", color=self.text_color)
-        self.a_label = VGroup(self.a_value, self.a_arrow).arrange(RIGHT, buff=1)
+    def _build_operands(self):
+        self.label_a = self._create_label(str(self.value_a))
+        self.label_b = self._create_label(str(self.value_b))
+        self.label_result = self._create_label("?", is_math=True)
 
-        self.b_value = Tex("6", color=self.text_color)
-        self.b_arrow = Tex(r"$\rightarrow$", color=self.text_color)
-        self.b_label = VGroup(self.b_value, self.b_arrow).arrange(RIGHT, buff=1)
+        self.bits_a = self._create_bits(self.value_a)
+        self.bits_b = self._create_bits(self.value_b)
+        self.bits_result = self._create_placeholder_bits()
 
-        self.r_value = Tex(r"$?$", color=self.text_color)
-        self.r_arrow = Tex(r"$\rightarrow$", color=self.text_color)
-        self.r_label = VGroup(self.r_value, self.r_arrow).arrange(RIGHT, buff=1)
+        self.bit_weights = self._create_weights()
 
-        self.a_bits = self._bits(self.a)
-        self.b_bits = self._bits(self.b)
-
-        self.r_bits = VGroup(*[
-            Tex("$?$", color=self.text_color)
-            for _ in range(self.bits)
-        ]).arrange(RIGHT, buff=0.6)
-
-        self.weights = self._weights()
-
-        self.left_group = VGroup(
-            self.weights,
-            VGroup(self.a_label, self.a_bits).arrange(RIGHT, buff=1),
-            VGroup(self.b_label, self.b_bits).arrange(RIGHT, buff=1),
-            VGroup(self.r_label, self.r_bits).arrange(RIGHT, buff=1)
+        self.operands_group = VGroup(
+            self.bit_weights,
+            self._pair_label_bits(self.label_a, self.bits_a),
+            self._pair_label_bits(self.label_b, self.bits_b),
+            self._pair_label_bits(self.label_result, self.bits_result),
         ).arrange(DOWN, aligned_edge=LEFT, buff=0.8)
 
-        for w, a_bit, r_bit in zip(self.weights, self.a_bits, self.r_bits):
-            w.align_to(a_bit, LEFT)
-            r_bit.align_to(a_bit, RIGHT)
-
-    def _bits(self, num):
-        return VGroup(*[
-            Tex(b, color=self.text_color)
-            for b in format(num, f"0{self.bits}b")
-        ]).arrange(RIGHT, buff=0.6)
-
-    def _weights(self):
-        items = []
-
-        for i in range(self.bits - 1, -1, -1):
-            v = 2 ** i
-            txt = str(v) if v <= 8 else rf"$2^{i}$"
-            items.append(Tex(txt, color=self.text_color))
-
-        return VGroup(*items).arrange(RIGHT, buff=0.2)
+        self._align_columns()
 
     def _build_truth_table(self):
-        raw = [
-            "A", "B", f"A {self.operator_name} B",
+        raw_cells = [
+            "A", "B", f"A {self.op_sym} B",
             0, 0, self.op_func(0, 0),
             0, 1, self.op_func(0, 1),
             1, 0, self.op_func(1, 0),
             1, 1, self.op_func(1, 1),
         ]
 
-        cells = VGroup(*[
-            Tex(str(x), color=self.text_color)
-            for x in raw
-        ])
+        self.truth_table = VGroup(*[
+            Tex(str(x), color=self.text_color) for x in raw_cells
+        ]).arrange_in_grid(cols=3, buff=0.4)
 
-        self.truth_table = cells.arrange_in_grid(cols=3, buff=0.4)
+    def _create_label(self, value, is_math=False):
+        value_tex = Tex(f"${value}$" if is_math else value, color=self.text_color)
+        arrow = Tex(r"$\rightarrow$", color=self.text_color)
+        return VGroup(value_tex, arrow).arrange(RIGHT, buff=1)
 
-    def _layout(self):
-        self.left_group.next_to(
-            self.header_mob,
-            DOWN,
-            aligned_edge=LEFT,
-            buff=0.8
-        )
+    def _pair_label_bits(self, label, bits):
+        return VGroup(label, bits).arrange(RIGHT, buff=1)
 
-        self.truth_table.next_to(
-            self.header_mob,
-            DOWN,
-            buff=0.8
-        )
+    def _create_bits(self, number):
+        bit_string = format(number, f"0{self.num_bits}b")
+        return VGroup(*[
+            Tex(bit, color=self.text_color) for bit in bit_string
+        ]).arrange(RIGHT, buff=0.6)
+
+    def _create_placeholder_bits(self):
+        return VGroup(*[
+            Tex("$?$", color=self.text_color) for _ in range(self.num_bits)
+        ]).arrange(RIGHT, buff=0.6)
+
+    def _create_weights(self):
+        weights = []
+        for i in range(self.num_bits - 1, -1, -1):
+            value = 2 ** i
+            label = str(value) if value <= 8 else rf"$2^{i}$"
+            weights.append(Tex(label, color=self.text_color))
+        return VGroup(*weights).arrange(RIGHT, buff=0.2)
+
+    def _align_columns(self):
+        for weight, bit_a, bit_r in zip(self.bit_weights, self.bits_a, self.bits_result):
+            weight.align_to(bit_a, LEFT)
+            bit_r.align_to(bit_a, RIGHT)
+
+    def _arrange_layout(self):
+        self.operands_group.next_to(self.header_mob, DOWN, aligned_edge=LEFT, buff=0.8)
+
+        self.truth_table.next_to(self.header_mob, DOWN, buff=0.8)
         self.truth_table.align_to(self.header_underline, RIGHT)
 
     def construct(self):
         self.play(Create(self.truth_table))
         self.next_slide()
 
-        self.play(Write(self.left_group))
+        self.play(Write(self.operands_group))
         self.next_slide()
 
-        self._animate_bitwise()
-
+        self._animate_bitwise_operation()
         self.next_slide()
 
-        result = self.op_func(self.a, self.b)
+        result_value = self.op_func(self.value_a, self.value_b)
 
         self.play(
             Transform(
-                self.r_value,
-                Tex(str(result), color=self.text_color).move_to(self.r_value)
+                self.label_result[0],
+                Tex(str(result_value), color=self.text_color).move_to(self.label_result[0])
             ),
             run_time=0.8
         )
@@ -868,28 +925,28 @@ class BitwiseOperatorDemo(Slide):
         self.next_slide()
 
         self.play(
-            Unwrite(self.left_group),
+            Unwrite(self.operands_group),
             Uncreate(self.truth_table),
             run_time=1
         )
 
-    def _animate_bitwise(self):
-        result = self.op_func(self.a, self.b)
-        r_bits = format(result, f"0{self.bits}b")
+    def _animate_bitwise_operation(self):
+        result_value = self.op_func(self.value_a, self.value_b)
+        result_bits = format(result_value, f"0{self.num_bits}b")
 
-        for i in range(self.bits):
-            idx = self.bits - 1 - i
+        for i in range(self.num_bits):
+            idx = self.num_bits - 1 - i
 
             self.play(
-                Indicate(self.a_bits[idx]),
-                Indicate(self.b_bits[idx]),
+                Indicate(self.bits_a[idx]),
+                Indicate(self.bits_b[idx]),
                 run_time=0.4
             )
 
             self.play(
                 Transform(
-                    self.r_bits[idx],
-                    Tex(r_bits[idx], color=self.text_color).move_to(self.r_bits[idx])
+                    self.bits_result[idx],
+                    Tex(result_bits[idx], color=self.text_color).move_to(self.bits_result[idx])
                 ),
                 run_time=0.2
             )
@@ -901,6 +958,7 @@ class DemoOR(BitwiseOperatorDemo):
         super().__init__(
             operator_name="OR",
             op_func=lambda a, b: a | b,
+            op_sym=r"\texttt{|}",
             text_color=BLACK,
             **kwargs
         )
@@ -910,6 +968,7 @@ class DemoAND(BitwiseOperatorDemo):
         super().__init__(
             operator_name="AND",
             op_func=lambda a, b: a & b,
+            op_sym=r"\texttt{\&}",
             text_color=BLACK,
             **kwargs
         )
@@ -919,6 +978,310 @@ class DemoXOR(BitwiseOperatorDemo):
         super().__init__(
             operator_name="XOR",
             op_func=lambda a, b: a ^ b,
+            op_sym=r"\texttt{\^{}}",
             text_color=BLACK,
             **kwargs
         )
+
+class BitwiseShiftDemo(Slide):
+    def __init__(self, operator_name, op_func, op_sym, text_color=WHITE, **kwargs):
+        super().__init__(**kwargs)
+        self.wait_time_between_slides = 0.1
+
+        self.operator_name = operator_name
+        self.op_func = op_func
+        self.op_sym = op_sym
+        self.text_color = text_color
+
+        self.num_bits = 8
+        self.value_a = 25
+        self.shift_amount = 2
+        self.result_value = self.op_func(self.value_a, self.shift_amount)
+
+        add_header(self, f"Bitwise Operators --- {self.operator_name}", text_color=self.text_color)
+        add_footer(self)
+
+        self._build_expression()
+        self._build_bit_rows()
+        self._arrange_layout()
+
+    def _build_expression(self):
+        self.expression_intro = Tex(
+            rf"Let $x = {self.value_a} {self.op_sym} {self.shift_amount}$",
+            color=self.text_color
+        )
+
+        self.expression_result = Tex(
+            rf"So, $x = {self.result_value}$",
+            color=self.text_color
+        )
+
+    def _build_bit_rows(self):
+        self.label_a = self._create_label(str(self.value_a))
+        self.label_x = self._create_label(
+            rf"{self.value_a} {self.op_sym} {self.shift_amount}",
+            is_math=True
+        )
+
+        self.bits_a_buffer = self._create_buffered_bits(self.value_a)
+        self.bits_shift_stage1 = self._create_buffered_bits(self.value_a)
+
+        if self.op_sym == "<<":
+            self.bits_shift_stage2 = self._create_left_shift_bits(self.value_a)
+        else:
+            self.bits_shift_stage2 = self._create_right_shift_bits(self.value_a)
+
+        self.bits_final_buffer = self._create_buffered_bits(self.result_value)
+
+        self.bits_a_visible = self.bits_a_buffer[2:10]
+        self.bits_x_visible = self.bits_shift_stage1[2:10]
+
+        self.bit_weights = self._create_weights()
+
+        self.layout_group = VGroup(
+            self.bit_weights,
+            VGroup(self.label_a, self.bits_a_buffer).arrange(RIGHT, buff=0.8),
+            VGroup(self.label_x, self.bits_shift_stage1).arrange(RIGHT, buff=0.8),
+        ).arrange(DOWN, aligned_edge=RIGHT, buff=0.8)
+
+        for w, bit in zip(self.bit_weights, self.bits_a_visible):
+            w.align_to(bit, LEFT)
+
+        self.visible_group = VGroup(
+            self.bit_weights,
+            self.label_a,
+            self.bits_a_visible,
+            self.label_x,
+            self.bits_x_visible
+        )
+
+    def _create_label(self, text, is_math=False):
+        value = Tex(rf"${text}$" if is_math else text, color=self.text_color)
+        arrow = Tex(r"$\rightarrow$", color=self.text_color)
+        return VGroup(value, arrow).arrange(RIGHT, buff=1)
+
+    def _create_buffered_bits(self, number):
+        bit_string = format(number, f"0{self.num_bits}b")
+        padded = [""] * 2 + list(bit_string) + [""] * 2
+
+        return VGroup(*[
+            Tex(b if b else "-", color=self.text_color)
+            for b in padded
+        ]).arrange(RIGHT, buff=0.6)
+
+    def _create_left_shift_bits(self, number):
+        bit_string = format(number, f"0{self.num_bits}b")
+        padded = list(bit_string) + [""] * 4
+
+        return VGroup(*[
+            Tex(b if b else "-", color=self.text_color)
+            for b in padded
+        ]).arrange(RIGHT, buff=0.6)
+
+    def _create_right_shift_bits(self, number):
+        bit_string = format(number, f"0{self.num_bits}b")
+        padded = [""] * 4 + list(bit_string)
+
+        return VGroup(*[
+            Tex(b if b else "-", color=self.text_color)
+            for b in padded
+        ]).arrange(RIGHT, buff=0.6)
+
+    def _create_weights(self):
+        weights = []
+        for i in range(self.num_bits - 1, -1, -1):
+            value = 2 ** i
+            label = str(value) if value <= 8 else rf"$2^{i}$"
+            weights.append(Tex(label, color=self.text_color))
+        return VGroup(*weights)
+
+    def _arrange_layout(self):
+        self.expression_intro.next_to(self.header_mob, DOWN, aligned_edge=LEFT, buff=0.8)
+        self.layout_group.next_to(self.expression_intro, DOWN, aligned_edge=LEFT, buff=0.8)
+
+        for i in range(len(self.bits_a_buffer)):
+            self.bits_shift_stage2[i].align_to(self.bits_a_buffer[i], RIGHT)
+            self.bits_final_buffer[i].align_to(self.bits_a_buffer[i], RIGHT)
+
+            self.bits_shift_stage2[i].align_to(self.label_x, DOWN)
+            self.bits_final_buffer[i].align_to(self.label_x, DOWN)
+
+        self.expression_result.next_to(self.layout_group, DOWN, aligned_edge=LEFT, buff=0.8)
+
+    def construct(self):
+        self.play(Write(self.expression_intro))
+        self.next_slide()
+
+        self.play(Create(self.visible_group))
+        self.next_slide()
+
+        if self.op_sym == "<<":
+            self.play(Transform(self.bits_x_visible, self.bits_shift_stage2[:-4]))
+        else:
+            self.play(Transform(self.bits_x_visible, self.bits_shift_stage2[4:]))
+        self.next_slide()
+
+        if self.op_sym == "<<":
+            discarded = self.bits_x_visible[:2]
+            self.bits_x_visible = self.bits_x_visible[2:]
+            filled = self.bits_final_buffer[-4:-2]
+        else:
+            discarded = self.bits_x_visible[-2:]
+            self.bits_x_visible = self.bits_x_visible[:-2]
+            filled = self.bits_final_buffer[2:4]
+
+        self.play(Indicate(discarded), run_time=0.5)
+        self.play(FadeOut(discarded), run_time=0.5)
+        self.next_slide()
+
+        self.play(Write(filled))
+        self.next_slide()
+
+        self.play(Write(self.expression_result))
+        self.next_slide()
+
+        self.play(
+            FadeOut(self.expression_intro),
+            FadeOut(self.expression_result),
+            FadeOut(self.label_a),
+            FadeOut(self.label_x),
+            FadeOut(self.bit_weights),
+            FadeOut(self.bits_a_visible),
+            FadeOut(self.bits_x_visible),
+            FadeOut(filled),
+            run_time=1
+        )
+
+class DemoLSHIFT(BitwiseShiftDemo):
+    def __init__(self, **kwargs):
+        super().__init__(
+            operator_name="Left Shift",
+            op_func=lambda a, b: a << b,
+            op_sym="<<",
+            text_color=BLACK,
+            **kwargs
+        )
+
+class DemoRSHIFT(BitwiseShiftDemo):
+    def __init__(self, **kwargs):
+        super().__init__(
+            operator_name="Right Shift",
+            op_func=lambda a, b: a >> b,
+            op_sym=">>",
+            text_color=BLACK,
+            **kwargs
+        )
+
+class Section_Applications(SectionSlide):
+    def __init__(self, **kwargs):
+        super().__init__(
+            section_title=r"Applications",
+            **kwargs
+        )
+        
+        add_footer(self)
+
+class Bitmasks(BulletSlide):
+    def __init__(self, **kwargs):
+        super().__init__(
+            header_text="Applications --- Bitmasks",
+            text_color=BLACK,
+            points=[
+                r"A bitmask is a sequence of bits with a specific pattern used to control or extract data from integers.",
+                r"Bitmasks take advantage of different properties of bitwise operators.",
+                r"For example, if one of the bits in an AND operation is $0$, the result is $0$ regardless of the other bit.",
+                r"If one of the bits in an AND operation is $1$, the result copies the other bit."
+            ],
+            **kwargs
+        )
+        
+        add_footer(self)
+
+class Subsets(BulletSlide):
+    def __init__(self, **kwargs):
+        super().__init__(
+            header_text="Applications --- Subsets",
+            text_color=BLACK,
+            points=[
+                r"A set of $n$ elements has $2^n$ subsets.",
+                r"Each subset can be represented using a bitmask of $n$ bits, where each bit corresponds to an element in the set.",
+                r"If the $i$-th bit of a bitmask is $0$, the $i$-th element is not included in the subset.",
+                r"If the $i$-th bit of a bitmask is $1$, the $i$-th element is included in the subset.",
+                r"If the $i$-th bit of a bitmask is $1$, the $i$-th element is included in the subset.",
+                r"If $a$ and $b$ are the bitmasks representing the sets $A$ and $B$, then $a \texttt{|} b$ will be the bitmask representing $A \cup B$.",
+                r"If $a$ and $b$ are the bitmasks representing the sets $A$ and $B$, then $a \texttt{\&} b$ will be the bitmask representing $A \cap B$."
+            ],
+            **kwargs
+        )
+        
+        add_footer(self)
+
+class Problem_BinaryOf2025(BulletSlide):
+    def __init__(self, **kwargs):
+        super().__init__(
+            header_text="Applications",
+            text_color=BLACK,
+            bullet_symbol="",
+            points=[
+                r"What is the binary representation of $2025$?",
+                r"A) \texttt{101101}",
+                r"B) \texttt{11111101001}",
+                r"C) \texttt{10010101010}",
+                r"D) \texttt{11101101100}",
+                r"E) \texttt{10101010111}"
+            ],
+            **kwargs
+        )
+        
+        add_footer(self)
+
+    def present_points(self, run_time=1):
+        self.play(Create(self.bullets), run_time=run_time)
+        self.next_slide()
+
+        self.play(self.bullets[1].animate.set_color(RED_A), run_time=run_time)
+        self.next_slide()
+
+        self.play(
+            self.bullets[3].animate.set_color(RED_A),
+            self.bullets[4].animate.set_color(RED_A),
+            run_time=run_time
+        )
+        self.next_slide()
+
+        self.play(
+            self.bullets[5].animate.set_color(RED_A),
+            self.bullets[2].animate.set_color(PURE_GREEN),
+            run_time=run_time
+        )
+        self.next_slide()
+
+class Problem_Bitwise(BulletSlide):
+    def __init__(self, **kwargs):
+        super().__init__(
+            header_text="Applications",
+            text_color=BLACK,
+            points=[
+                r"Check whether a number is \textbf{odd or even} using bitwise operators.",
+                r"\textbf{Set} (make it $1$) the $i$-th bit of a number using bitwise operators.",
+                r"\textbf{Clear} (make it $0$) the $i$-th bit of a number using bitwise operators.",
+                r"\textbf{Toggle} (change) the $i$-th bit of a number using bitwise operators.",
+                r"\textbf{Check} whether the $i$-th bit of a number is set ($1$) using bitwise operators.",
+                r"Check whether a number is a \textbf{power of $2$} using bitwise operators."
+            ],
+            **kwargs
+        )
+        
+        add_footer(self)
+
+class Ending(Slide):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.wait_time_between_slides = 0.1
+        add_footer(self)
+    
+    def construct(self):
+        txt = Tex("To Be Continued", color=BLACK, font_size=DEFAULT_FONT_SIZE * 3)
+        self.play(Write(txt))
+        self.next_slide()
+        self.play(Unwrite(txt))

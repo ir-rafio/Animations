@@ -1,4 +1,4 @@
-TitleSlide
+Title_Bits
 Introduction
 TableOfContents
 Section_BinaryNumberSystem
@@ -14,7 +14,8 @@ DisplayUnsigned8
 DisplayUnsigned16
 DisplayUnsigned32
 Section_SignedRepresentation
-SignedRepresentation
+SignedRepresentation1
+SignedRepresentation2
 DiscoverNegatives
 BinaryComplement
 DisplaySigned4
@@ -30,15 +31,12 @@ DemoAND
 BitwiseXOR
 DemoXOR
 BitwiseNOT
-BitwiseSHIFT
+BitwiseShift
+DemoLSHIFT
+DemoRSHIFT
 Section_Applications
 Problem_BinaryOf2025
 Bitmasks
-Problem_OddEvenCheck
-Problem_BitSet
-Problem_BitClear
-Problem_BitToggle
-Problem_BitCheck
-Problem_Power2Check
+Problem_Bitwise
 Subsets
-Problem_SetOperations
+Ending
