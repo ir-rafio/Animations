@@ -715,7 +715,7 @@ class BitwiseOperators(BulletSlide):
                 r"Each bit is processed \textbf{independently} (the result of one bit does not affect other bits).",
                 r"Bitwise operators treat integer variables like \textbf{boolean arrays}.",
                 r"Bitwise operators directly map to low-level hardware operations and are extremely fast.",
-                r"In C, the bitwise operators are: \texttt{\&} (AND), \texttt{|} (OR), \texttt{\^} (XOR), \texttt{\textasciitilde} (NOT), \texttt{<<} (left shift), and \texttt{>>} (right shift)."
+                r"In C, the bitwise operators are:\\ \texttt{\&} (AND), \texttt{|} (OR), \texttt{\^} (XOR), \texttt{\textasciitilde} (NOT), \texttt{<<} (left shift), and \texttt{>>} (right shift)."
             ],
             **kwargs
         )
@@ -888,7 +888,7 @@ class BitwiseOperatorDemo(Slide):
         for i in range(self.num_bits - 1, -1, -1):
             value = 2 ** i
             label = str(value) if value <= 8 else rf"$2^{i}$"
-            weights.append(Tex(label, color=self.text_color))
+            weights.append(Tex(label, color=GREY))
         return VGroup(*weights).arrange(RIGHT, buff=0.2)
 
     def _align_columns(self):
@@ -929,6 +929,7 @@ class BitwiseOperatorDemo(Slide):
             Uncreate(self.truth_table),
             run_time=1
         )
+        self.next_slide()
 
     def _animate_bitwise_operation(self):
         result_value = self.op_func(self.value_a, self.value_b)
@@ -951,7 +952,7 @@ class BitwiseOperatorDemo(Slide):
                 run_time=0.2
             )
 
-            self.next_slide()
+            if(i < self.num_bits / 2): self.next_slide()
 
 class DemoOR(BitwiseOperatorDemo):
     def __init__(self, **kwargs):
@@ -1092,7 +1093,7 @@ class BitwiseShiftDemo(Slide):
         for i in range(self.num_bits - 1, -1, -1):
             value = 2 ** i
             label = str(value) if value <= 8 else rf"$2^{i}$"
-            weights.append(Tex(label, color=self.text_color))
+            weights.append(Tex(label, color=GREY))
         return VGroup(*weights)
 
     def _arrange_layout(self):
@@ -1207,7 +1208,7 @@ class Subsets(BulletSlide):
                 r"Each subset can be represented using a bitmask of $n$ bits, where each bit corresponds to an element in the set.",
                 r"If the $i$-th bit of a bitmask is $0$, the $i$-th element is not included in the subset.",
                 r"If the $i$-th bit of a bitmask is $1$, the $i$-th element is included in the subset.",
-                r"If the $i$-th bit of a bitmask is $1$, the $i$-th element is included in the subset.",
+                r"Each subset corresponds to an integer from $0$ to $(2^n - 1)$.",
                 r"If $a$ and $b$ are the bitmasks representing the sets $A$ and $B$, then $a \texttt{|} b$ will be the bitmask representing $A \cup B$.",
                 r"If $a$ and $b$ are the bitmasks representing the sets $A$ and $B$, then $a \texttt{\&} b$ will be the bitmask representing $A \cap B$."
             ],
@@ -1272,6 +1273,47 @@ class Problem_Bitwise(BulletSlide):
             **kwargs
         )
         
+        add_footer(self)
+
+class Section_Summary(SectionSlide):
+    def __init__(self, **kwargs):
+        super().__init__(
+            section_title="Summary",
+            **kwargs
+        )
+        
+        add_footer(self)
+
+class Summary1(BulletSlide):
+    def __init__(self, **kwargs):
+        super().__init__(
+            header_text="Summary",
+            text_color=BLACK,
+            points=[
+                r"Using $n$ bits, $2^n$ different sequences can be formed, each representing a unique number.",
+                r"The bit sequences are interpreted using the binary number system, a positional system where each position has a weight given by a power of $2$.",
+                r"By reserving one bit as a sign bit and slightly modifying the representation, both positive and negative numbers can be represented in a way that is consistent with arithmetic operations.",
+                r"Bitwise operators operate directly on individual bits of an integer, effectively treating the integer as an array of boolean values."
+            ],
+            **kwargs
+        )
+        add_footer(self)
+
+
+class Summary2(BulletSlide):
+    def __init__(self, **kwargs):
+        super().__init__(
+            header_text="Summary",
+            text_color=BLACK,
+            points=[
+                r"Shift operators move bits left or right, corresponding to multiplication or division by powers of $2$, within certain limits.",
+                r"Specific bits within a number can be efficiently read and manipulated using carefully chosen bitmasks and bitwise operators.",
+                r"Shift operators are often useful for generating specific bitmasks efficiently.",
+                r"Analyzing binary representations can reveal useful mathematical observations. For example, the last $k$ bits of a number represent its value modulo $2^k$.",
+                r"Bitmasks are commonly used to represent sets and bitwise operators are used to perform different set operations."
+            ],
+            **kwargs
+        )
         add_footer(self)
 
 class Ending(Slide):

@@ -25,7 +25,7 @@ class TitleSlide(Slide):
         course_title="",
         course_teachers=None,
         text_color1=WHITE,
-        text_color2=GRAY,
+        text_color2=GREY,
         font_size1=30,
         font_size2=28,
         font_size3=20,

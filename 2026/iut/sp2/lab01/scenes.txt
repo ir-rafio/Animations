@@ -39,4 +39,7 @@ Problem_BinaryOf2025
 Bitmasks
 Problem_Bitwise
 Subsets
+Section_Summary
+Summary1
+Summary2
 Ending
