@@ -83,30 +83,34 @@ class SectionSlide(Slide):
 
 class BulletSlide(Slide):
     def __init__(
-            self,
-            header_text="",
-            points=None,
-            text_color=WHITE,
-            bullet_symbol=r"$\square$",
-            **kwargs
-        ):
+        self,
+        header_text="",
+        points=None,
+        side_mobject=None,
+        text_color=WHITE,
+        bullet_symbol=r"$\square$",
+        **kwargs
+    ):
         super().__init__(**kwargs)
+
         self.wait_time_between_slides = 0.1
 
-        self.text_color = text_color
         self.header_text = header_text
         self.points = points or []
+        self.text_color = text_color
+
+        self.side = VGroup(side_mobject) if side_mobject is not None else VGroup()
 
         add_header(self, header_text, text_color=self.text_color)
 
         self.build_points(bullet_symbol)
-        self.fit_points_in_frame()
-        self.position_points()
+        self.layout()
 
     def construct(self):
         self.present_points()
         self.next_slide()
         self.cleanup()
+        self.next_slide()
 
     def build_points(self, bullet_symbol):
         self.bullets = VGroup(*[
@@ -117,20 +121,59 @@ class BulletSlide(Slide):
             for p in self.points
         ])
 
+    def layout(self):
         self.bullets.arrange(DOWN, aligned_edge=LEFT, buff=0.4)
 
-    def fit_points_in_frame(self):
-        max_width = config.frame_width - 1
-        max_height = config.frame_height - 2 - self.header_mob.height
+        self.fit_in_frame(self.bullets)
+        self.position_group(self.bullets)
 
-        if self.bullets.height > max_height:
-            self.bullets.scale_to_fit_height(max_height)
+        if len(self.side) == 0: return
 
-        if self.bullets.width > max_width:
-            self.bullets.scale_to_fit_width(max_width)
+        overlap, non_overlap = self.split_by_overlap()
+        self.fit_in_frame(overlap, max_width=config.frame_width - 1 - self.side.width)
 
-    def position_points(self):
-        self.bullets.next_to(
+        cluster = VGroup(overlap, self.side).arrange(
+            RIGHT,
+            buff=0.4,
+            aligned_edge=UP
+        )
+
+        self.position_group(cluster)
+        non_overlap.next_to(cluster, DOWN, buff=0.4, aligned_edge=LEFT)
+
+        self.fit_in_frame(VGroup(self.bullets, self.side))
+
+    def split_by_overlap(self):
+        overlap = VGroup()
+        non_overlap = VGroup()
+
+        side_bottom = self.side.get_bottom()[1]
+
+        for b in self.bullets:
+            if b.get_top()[1] > side_bottom:
+                overlap.add(b)
+            else:
+                non_overlap.add(b)
+
+        return overlap, non_overlap
+
+    def fit_in_frame(
+            self,
+            mob,
+            max_width=None,
+            max_height=None
+        ):
+        if(max_width is None): max_width = config.frame_width - 1
+        if(max_height is None): max_height = config.frame_height - 2 - self.header_mob.height
+
+        if mob.width > max_width:
+            mob.scale_to_fit_width(max_width)
+
+        if mob.height > max_height:
+            mob.scale_to_fit_height(max_height)
+
+    def position_group(self, mob):
+        mob.next_to(
             self.header_mob,
             DOWN,
             aligned_edge=LEFT,
@@ -141,12 +184,17 @@ class BulletSlide(Slide):
         for bullet in self.bullets:
             self.play(Write(bullet), run_time=run_time)
             self.next_slide()
-    
+
+        if len(self.side) > 0:
+            self.play(Create(self.side))
+            self.next_slide()
+
     def cleanup(self, run_time=1):
-      self.play(
-          Unwrite(self.bullets),
-          run_time=run_time
-      )
+        self.play(
+            *[Unwrite(b) for b in self.bullets],
+            Uncreate(self.side),
+            run_time=run_time
+        )
 
 class MathExpansionSlide(Slide):
     def __init__(
