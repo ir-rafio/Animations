@@ -23,11 +23,16 @@ LeapOfFaith1
 LeapOfFaith2
 Section_Generalization
 Generalization
+SumExample
+PrintReverseExample
+PrintForwardExample
+SumOfDigitsExample
 Section_Debug
 Debug1
 Debug2
 Debug3
 Debug4
+Debug5
 Section_Summary
 Summary
 Ending

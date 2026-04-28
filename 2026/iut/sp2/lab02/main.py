@@ -1,6 +1,7 @@
 from manim import *
 from manim_slides import Slide
 from props.presentation import *
+from props.code_style import *
 from lab_info import *
 
 sans_template = TexTemplate()
@@ -19,7 +20,6 @@ class Title_Recursion(TitleSlide):
             text_color2=DARK_GREY,
             **kwargs
         )
-
         add_footer(self)
 
 class Introduction(BulletSlide):
@@ -54,7 +54,6 @@ class TableOfContents(BulletSlide):
             ],
             **kwargs
         )
-
         add_footer(self)
 
 class Section_Functions(SectionSlide):
@@ -63,7 +62,6 @@ class Section_Functions(SectionSlide):
             section_title=r"Functions\\and\\Modular\\Programming",
             **kwargs
         )
-
         add_footer(self)
 
 class Functions(BulletSlide):
@@ -119,7 +117,6 @@ class Section_Recursion(SectionSlide):
             section_title=r"The Main\\Idea of\\Recursion",
             **kwargs
         )
-
         add_footer(self)
 
 
@@ -141,20 +138,46 @@ class RecursionIdea(BulletSlide):
 
 class Rules(BulletSlide):
     def __init__(self, **kwargs):
+        text_color=BLACK
+
+        code_file = f"./assets/code/powr.c"
+        code = StylelessCode(
+            code_file=code_file,
+            text_color=text_color
+        ).scale(0.5)
+
         super().__init__(
             header_text="The Main Idea of Recursion",
             text_color=BLACK,
             points=[
-                r"First rule of recursion: \textbf{``Know when to stop.''}",
+                # r"First rule of recursion: \textbf{``Know when to stop.''}",
                 r"Every recursive function must have at least one base case and one recursive step.",
                 r"The base case is the simplest case that can be answered directly without any further recursion.",
                 r"The recursive step reduces the problem by calling the same function on a smaller input.",
                 r"Critical requirement: Each recursive call must move the problem closer to the base case to ensure termination.",
                 r"Any assumptions about the domain of valid inputs must be clearly defined so that the base case is guaranteed to be reached."
             ],
+            side_mobject=code,
             **kwargs
         )
         add_footer(self)
+
+        self.poster = ImageMobject("./assets/img/first-rule.png")
+        self.poster.scale_to_fit_width(6)
+
+    def present_points(self, run_time=1):
+        self.play(FadeIn(self.poster))
+        self.next_slide()
+
+        self.play(FadeOut(self.poster))
+        self.next_slide()
+
+        self.play(Create(self.side))
+        self.next_slide()
+
+        for bullet in self.bullets:
+            self.play(Write(bullet), run_time=run_time)
+            self.next_slide()
 
 class Section_Memory(SectionSlide):
     def __init__(self, **kwargs):
@@ -162,7 +185,6 @@ class Section_Memory(SectionSlide):
             section_title=r"Memory\\In\\Recursion",
             **kwargs
         )
-
         add_footer(self)
 
 
@@ -189,7 +211,6 @@ class Section_Branching(SectionSlide):
             section_title=r"Branching\\In\\Recursion",
             **kwargs
         )
-
         add_footer(self)
 
 
@@ -214,26 +235,45 @@ class Section_LeapOfFaith(SectionSlide):
             section_title=r"Recursive\\Leap of\\Faith",
             **kwargs
         )
-
         add_footer(self)
 
 
 class LeapOfFaith1(BulletSlide):
     def __init__(self, **kwargs):
+        text_color=BLACK
+
+        code_file = f"./assets/code/fib.c"
+        code = StylelessCode(
+            code_file=code_file,
+            text_color=text_color
+        ).scale(0.5)
+
         super().__init__(
             header_text="Recursive Leap of Faith",
-            text_color=BLACK,
+            text_color=text_color,
             points=[
                 r"Drawing full recursion trees or tables is for beginners to understand the behavior of recursion so that they can convince themselves or get an intuition that recursion works.",
                 r"Once a programmer is comfortable with the idea of recursion, he doesn't need to draw the full tree anymore (sometimes a few levels can be drawn for debugging purposes).",
                 r"Recursive leap of faith extends the idea of modular programming to recursion.",
                 r"It is not necessary to check how the subproblems get their results.",
-                r"The focus is only on verifying that the base case is correct and that the current step correctly uses results from smaller inputs assuming they are correct."
+                r"The focus is only on verifying that the \textbf{base case} is correct (and always reachable) and that the current step \textbf{correctly uses} results from smaller inputs \textit{assuming they are correct}."
             ],
+            side_mobject=code,
             **kwargs
         )
         add_footer(self)
 
+    def present_points(self, run_time=1):
+        for bullet in self.bullets[:2]:
+            self.play(Write(bullet), run_time=run_time)
+            self.next_slide()
+
+        self.play(Write(self.side))
+        self.next_slide()
+
+        for bullet in self.bullets[2:]:
+            self.play(Write(bullet), run_time=run_time)
+            self.next_slide()
 
 class LeapOfFaith2(BulletSlide):
     def __init__(self, **kwargs):
@@ -257,7 +297,6 @@ class Section_Generalization(SectionSlide):
             section_title=r"The Idea\\of\\Generalization",
             **kwargs
         )
-
         add_footer(self)
 
 class Generalization(BulletSlide):
@@ -282,8 +321,112 @@ class Section_Debug(SectionSlide):
             section_title=r"Debugging\\Practice",
             **kwargs
         )
-
         add_footer(self)
+
+class DebugCode(Slide):
+    def __init__(self, idx, mistake, **kwargs):
+        super().__init__(**kwargs)
+        self.wait_time_between_slides = 0.1
+
+        code_file = f"./assets/code/dbg{idx}.c"
+        header_text = rf"Debugging Practice --- Example ${idx}$"
+
+        self.text_color = BLACK
+        add_header(self, header_text, text_color=self.text_color)
+        add_footer(self)
+
+        self.build_group(code_file, mistake)
+        self.fit_group_in_frame()
+        self.position_group()
+
+    def construct(self):
+        self.present()
+        self.next_slide()
+        self.cleanup()
+        self.next_slide()
+    
+    def build_group(self, code_file, mistake):
+        self.code = StylelessCode(
+            code_file=code_file,
+            text_color=self.text_color
+        )
+        self.mistake = Tex(mistake, color=self.text_color)
+    
+    def fit_group_in_frame(self):
+        max_width = config.frame_width - 1
+        max_height = config.frame_height - 2 - self.header_mob.height
+
+        if self.code.width > max_width:
+            self.code.scale_to_fit_width(max_width)
+
+        if self.mistake.width > max_width:
+            self.mistake.scale_to_fit_width(max_width)
+
+        self.group = VGroup(self.code, self.mistake)
+        self.group.arrange(DOWN, aligned_edge=LEFT, buff=0.4)
+
+        if self.group.height > max_height:
+            self.group.scale_to_fit_height(max_height)
+    
+    def position_group(self):
+        self.group.next_to(
+            self.header_mob,
+            DOWN,
+            aligned_edge=LEFT,
+            buff=0.8
+        )
+
+    def present(self, run_time=1):
+        self.play(Write(self.code), run_time=run_time)
+        self.next_slide()
+        self.play(Write(self.mistake), run_time=run_time)
+        self.next_slide()
+    
+    def cleanup(self, run_time=1):
+      self.play(
+          Unwrite(self.group),
+          run_time=run_time
+      )
+
+class Debug1(DebugCode):
+    def __init__(self, **kwargs):
+        super().__init__(
+            idx = 1,
+            mistake = r"\textbf{Mistake}: No base case!",
+            **kwargs
+        )
+
+class Debug2(DebugCode):
+    def __init__(self, **kwargs):
+        super().__init__(
+            idx = 2,
+            mistake = r"\textbf{Mistake}: Wrong recursion step!",
+            **kwargs
+        )
+
+class Debug3(DebugCode):
+    def __init__(self, **kwargs):
+        super().__init__(
+            idx = 3,
+            mistake = r"\textbf{Mistake}: Does not reach base case!",
+            **kwargs
+        )
+
+class Debug4(DebugCode):
+    def __init__(self, **kwargs):
+        super().__init__(
+            idx = 4,
+            mistake = r"\textbf{Mistake}: Wrong recursion step and logic!",
+            **kwargs
+        )
+
+class Debug5(DebugCode):
+    def __init__(self, **kwargs):
+        super().__init__(
+            idx = 5,
+            mistake = r"\textbf{No mistake}! This is a working function for printing the octal value of an integer.",
+            **kwargs
+        )
 
 class Section_Summary(SectionSlide):
     def __init__(self, **kwargs):
@@ -291,7 +434,6 @@ class Section_Summary(SectionSlide):
             section_title=r"Summary",
             **kwargs
         )
-
         add_footer(self)
 
 class Summary(BulletSlide):
