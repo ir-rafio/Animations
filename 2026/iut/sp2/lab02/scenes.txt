@@ -8,6 +8,7 @@ ModularProgramming1
 ModularProgramming2
 Section_Recursion
 RecursionIdea
+PowerExample
 PowerSimulation
 Rules
 FactorialSimulation

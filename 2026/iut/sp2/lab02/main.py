@@ -27,12 +27,16 @@ class Introduction(BulletSlide):
         super().__init__(
             header_text="Introduction",
             text_color=BLACK,
-            points = [
-                r"Introduction"
+            points=[
+                r"Can a function solve a problem by calling itself?",
+                r"At first, this might sound strange or even impossible.",
+                r"However, many problems become much easier when they are broken into smaller versions of the same problem.",
+                r"This idea leads to recursion, where a function uses smaller instances of itself to build a solution.",
+                r"Although recursion may seem confusing at first, it is a natural and powerful way to think about problems.",
+                r"To use recursion effectively, programmers need to understand its rules and develop the right way of thinking."
             ],
             **kwargs
         )
-
         add_footer(self)
 
 class TableOfContents(BulletSlide):
@@ -56,7 +60,7 @@ class TableOfContents(BulletSlide):
 class Section_Functions(SectionSlide):
     def __init__(self, **kwargs):
         super().__init__(
-            section_title=r"Functions\\and\\Modular Programming",
+            section_title=r"Functions\\and\\Modular\\Programming",
             **kwargs
         )
 
@@ -65,7 +69,7 @@ class Section_Functions(SectionSlide):
 class Functions(BulletSlide):
     def __init__(self, **kwargs):
         super().__init__(
-            header_text="Function",
+            header_text="Functions and Modular Programming",
             text_color=BLACK,
             points=[
                 r"A function is a reusable block of code usually designed to perform a single, specific task.",
@@ -82,7 +86,7 @@ class Functions(BulletSlide):
 class ModularProgramming1(BulletSlide):
     def __init__(self, **kwargs):
         super().__init__(
-            header_text="ModularProgramming",
+            header_text="Functions and Modular Programming",
             text_color=BLACK,
             points=[
                 r"Modular programming is the process of organizing a program into independent and well-defined components.",
@@ -97,7 +101,7 @@ class ModularProgramming1(BulletSlide):
 class ModularProgramming2(BulletSlide):
     def __init__(self, **kwargs):
         super().__init__(
-            header_text="ModularProgramming",
+            header_text="Functions and Modular Programming",
             text_color=BLACK,
             points=[
                 r"Modular Programming reduces cognitive load by letting programmers focus on one piece at a time.",
@@ -112,7 +116,7 @@ class ModularProgramming2(BulletSlide):
 class Section_Recursion(SectionSlide):
     def __init__(self, **kwargs):
         super().__init__(
-            section_title=r"The Main Idea of Recursion",
+            section_title=r"The Main\\Idea of\\Recursion",
             **kwargs
         )
 
@@ -122,7 +126,7 @@ class Section_Recursion(SectionSlide):
 class RecursionIdea(BulletSlide):
     def __init__(self, **kwargs):
         super().__init__(
-            header_text="Recursion",
+            header_text="The Main Idea of Recursion",
             text_color=BLACK,
             points=[
                 r"Recursion is a technique where a function solves a problem by calling itself on smaller inputs.",
@@ -138,7 +142,7 @@ class RecursionIdea(BulletSlide):
 class Rules(BulletSlide):
     def __init__(self, **kwargs):
         super().__init__(
-            header_text="Rules",
+            header_text="The Main Idea of Recursion",
             text_color=BLACK,
             points=[
                 r"First rule of recursion: \textbf{``Know when to stop.''}",
@@ -155,7 +159,7 @@ class Rules(BulletSlide):
 class Section_Memory(SectionSlide):
     def __init__(self, **kwargs):
         super().__init__(
-            section_title=r"Memory In Recursion",
+            section_title=r"Memory\\In\\Recursion",
             **kwargs
         )
 
@@ -165,7 +169,7 @@ class Section_Memory(SectionSlide):
 class Memory(BulletSlide):
     def __init__(self, **kwargs):
         super().__init__(
-            header_text="Memory",
+            header_text="Memory In Recursion",
             text_color=BLACK,
             points=[
                 r"Every function call gets its own set of parameters and local variables.",
@@ -182,7 +186,7 @@ class Memory(BulletSlide):
 class Section_Branching(SectionSlide):
     def __init__(self, **kwargs):
         super().__init__(
-            section_title=r"Branching In Recursion",
+            section_title=r"Branching\\In\\Recursion",
             **kwargs
         )
 
@@ -192,7 +196,7 @@ class Section_Branching(SectionSlide):
 class Branching(BulletSlide):
     def __init__(self, **kwargs):
         super().__init__(
-            header_text="Branching",
+            header_text="Branching In Recursion",
             text_color=BLACK,
             points=[
                 r"Some recursive functions make more than one recursive call.",
@@ -207,7 +211,7 @@ class Branching(BulletSlide):
 class Section_LeapOfFaith(SectionSlide):
     def __init__(self, **kwargs):
         super().__init__(
-            section_title=r"Recursive Leap of Faith",
+            section_title=r"Recursive\\Leap of\\Faith",
             **kwargs
         )
 
@@ -217,7 +221,7 @@ class Section_LeapOfFaith(SectionSlide):
 class LeapOfFaith1(BulletSlide):
     def __init__(self, **kwargs):
         super().__init__(
-            header_text="LeapOfFaith1",
+            header_text="Recursive Leap of Faith",
             text_color=BLACK,
             points=[
                 r"Drawing full recursion trees or tables is for beginners to understand the behavior of recursion so that they can convince themselves or get an intuition that recursion works.",
@@ -234,7 +238,7 @@ class LeapOfFaith1(BulletSlide):
 class LeapOfFaith2(BulletSlide):
     def __init__(self, **kwargs):
         super().__init__(
-            header_text="LeapOfFaith2",
+            header_text="Recursive Leap of Faith",
             text_color=BLACK,
             points=[
                 r"If the base case is correct, then the smallest case of the problem is solved correctly.",
@@ -250,7 +254,7 @@ class LeapOfFaith2(BulletSlide):
 class Section_Generalization(SectionSlide):
     def __init__(self, **kwargs):
         super().__init__(
-            section_title=r"The Idea of Generalization",
+            section_title=r"The Idea\\of\\Generalization",
             **kwargs
         )
 
@@ -259,14 +263,14 @@ class Section_Generalization(SectionSlide):
 class Generalization(BulletSlide):
     def __init__(self, **kwargs):
         super().__init__(
-            header_text="Generalization",
+            header_text="The Idea of Generalization",
             text_color=BLACK,
             points=[
                 r"Generalization is the process of moving from specific instances to a broader concept",
                 r"Generalization can expand domain by removing assumptions, such as extending natural numbers to integers, rational numbers, real numbers, and eventually complex numbers.",
                 r"Functions can be generalized by introducing additional parameters, making them more flexible and capable of solving a broader range of problems.",
                 r"For example, the function \texttt{getSquareArea(length)} can be generalized to \texttt{getRectangleArea(length, width)}.",
-                r"Sometimes a problem or algorithm may not appear recursive in its original form, but after generalizing the problem, recursion becomes possible and deeper structure gets revealed."
+                r"Sometimes a problem or algorithm may not appear recursive in its original form, but after generalizing the problem, recursion becomes possible."
             ],
             **kwargs
         )
