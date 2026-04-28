@@ -80,7 +80,6 @@ class Functions(BulletSlide):
         )
         add_footer(self)
 
-
 class ModularProgramming1(BulletSlide):
     def __init__(self, **kwargs):
         super().__init__(
@@ -94,7 +93,6 @@ class ModularProgramming1(BulletSlide):
             **kwargs
         )
         add_footer(self)
-
 
 class ModularProgramming2(BulletSlide):
     def __init__(self, **kwargs):
@@ -119,7 +117,6 @@ class Section_Recursion(SectionSlide):
         )
         add_footer(self)
 
-
 class RecursionIdea(BulletSlide):
     def __init__(self, **kwargs):
         super().__init__(
@@ -135,7 +132,6 @@ class RecursionIdea(BulletSlide):
         )
         add_footer(self)
 
-
 class Rules(BulletSlide):
     def __init__(self, **kwargs):
         text_color=BLACK
@@ -150,7 +146,6 @@ class Rules(BulletSlide):
             header_text="The Main Idea of Recursion",
             text_color=BLACK,
             points=[
-                # r"First rule of recursion: \textbf{``Know when to stop.''}",
                 r"Every recursive function must have at least one base case and one recursive step.",
                 r"The base case is the simplest case that can be answered directly without any further recursion.",
                 r"The recursive step reduces the problem by calling the same function on a smaller input.",
@@ -163,7 +158,7 @@ class Rules(BulletSlide):
         add_footer(self)
 
         self.poster = ImageMobject("./assets/img/first-rule.png")
-        self.poster.scale_to_fit_width(6)
+        self.poster.scale_to_fit_height(6)
 
     def present_points(self, run_time=1):
         self.play(FadeIn(self.poster))
@@ -186,7 +181,6 @@ class Section_Memory(SectionSlide):
             **kwargs
         )
         add_footer(self)
-
 
 class Memory(BulletSlide):
     def __init__(self, **kwargs):
@@ -213,7 +207,6 @@ class Section_Branching(SectionSlide):
         )
         add_footer(self)
 
-
 class Branching(BulletSlide):
     def __init__(self, **kwargs):
         super().__init__(
@@ -236,7 +229,6 @@ class Section_LeapOfFaith(SectionSlide):
             **kwargs
         )
         add_footer(self)
-
 
 class LeapOfFaith1(BulletSlide):
     def __init__(self, **kwargs):
