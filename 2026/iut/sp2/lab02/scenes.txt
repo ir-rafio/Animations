@@ -3,7 +3,9 @@ Introduction
 TableOfContents
 Section_Functions
 Functions
-Mensuration
+Mensuration1
+Mensuration2
+Mensuration3
 ModularProgramming1
 ModularProgramming2
 Section_Recursion
@@ -14,7 +16,7 @@ Rules
 FactorialSimulation
 Section_Memory
 Memory
-PowerSimulationWithStack
+PowerSimulation
 Section_Branching
 Branching
 FibonacciSimulation
@@ -23,7 +25,8 @@ LeapOfFaith1
 LeapOfFaith2
 Section_Generalization
 Generalization
-SumExample
+SumExample1
+SumExample2
 PrintReverseExample
 PrintForwardExample
 SumOfDigitsExample
