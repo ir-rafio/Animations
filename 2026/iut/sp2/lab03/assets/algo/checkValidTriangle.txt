@@ -1,0 +1,5 @@
+checkValidTriangle(a, b, c):
+    IF (a >= b + c), return NO
+    IF (b >= c + a), return NO
+    IF (c >= a + b), return NO
+    return YES

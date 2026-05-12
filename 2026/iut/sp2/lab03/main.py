@@ -95,6 +95,28 @@ class AlgorithmVsCode1(BulletSlide):
             **kwargs
         )
         add_footer(self)
+
+        self._build_figure("./assets/img/computers.jpg")
+
+    def _build_figure(self, img_path):
+        img = ImageMobject(img_path)
+        img.scale_to_fit_height(5)
+
+        label = Tex("Figure: Computer Room, NACA High Speed Flight Station (1949)", color=self.text_color)
+        label.scale_to_fit_width(6)
+
+        self.figure = Group(img, label).arrange(DOWN, buff=0.1)
+        self.position_group(self.figure)
+        self.figure.set_x(self.header_underline.get_x())
+    
+    def construct(self):
+        super().construct()
+
+        self.play(FadeIn(self.figure))
+        self.next_slide()
+
+        self.play(FadeOut(self.figure))
+        self.next_slide()
         
 class AlgorithmVsCode2(BulletSlide):
     def __init__(self, **kwargs):
@@ -129,7 +151,7 @@ class AlgorithmVsCode3(BulletSlide):
 class AlgorithmExample1(BulletSlide):
     def __init__(self, **kwargs):
         super().__init__(
-            header_text="Algorithm Example 1 --- Valid Triangle",
+            header_text="Algorithm Example --- Valid Triangle",
             text_color=BLACK,
             points=[
                 r"\textbf{Problem}: Given three integers as side lengths, determine whether they can form a valid triangle.",
@@ -139,11 +161,43 @@ class AlgorithmExample1(BulletSlide):
             **kwargs
         )
         add_footer(self)
+
+        self.build_algo("./assets/algo/checkValidTriangle.txt")
+        self.build_code("./assets/code/checkValidTriangle.c")
+
+        self.side = VGroup(self.algo, self.code).arrange(RIGHT, buff=0.4, aligned_edge=UP)
+        self.fit_in_frame(self.side)
+        group = VGroup(self.bullets, self.side).arrange(DOWN, buff=0.4)
+        self.fit_in_frame(group)
+        self.position_group(group)
+
+    def build_algo(self, algo_file):
+        self.algo = StylelessCode(
+            code_file=algo_file,
+            text_color=self.text_color
+        )
+
+    def build_code(self, code_file):
+        self.code = StylelessCode(
+            code_file=code_file,
+            text_color=self.text_color
+        )
+
+    def present_points(self, run_time=1):
+        for bullet in self.bullets:
+            self.play(Write(bullet), run_time=run_time)
+            self.next_slide()
+
+        self.play(Create(self.algo), run_time=run_time)
+        self.next_slide()
+
+        self.play(Create(self.code), run_time=run_time)
+        self.next_slide()
         
 class AlgorithmExample2(BulletSlide):
     def __init__(self, **kwargs):
         super().__init__(
-            header_text="Algorithm Example 2 --- Get Min",
+            header_text="Algorithm Example --- Get Min",
             text_color=BLACK,
             points=[
                 r"\textbf{Problem}: Given an array of integers, determine the minimum value in the array.",
@@ -153,11 +207,43 @@ class AlgorithmExample2(BulletSlide):
             **kwargs
         )
         add_footer(self)
+
+        self.build_algo("./assets/algo/getMin.txt")
+        self.build_code("./assets/code/getMin.c")
+
+        self.side = VGroup(self.algo, self.code).arrange(RIGHT, buff=0.4, aligned_edge=UP)
+        self.fit_in_frame(self.side)
+        group = VGroup(self.bullets, self.side).arrange(DOWN, buff=0.4)
+        self.fit_in_frame(group)
+        self.position_group(group)
+
+    def build_algo(self, algo_file):
+        self.algo = StylelessCode(
+            code_file=algo_file,
+            text_color=self.text_color
+        )
+
+    def build_code(self, code_file):
+        self.code = StylelessCode(
+            code_file=code_file,
+            text_color=self.text_color
+        )
+
+    def present_points(self, run_time=1):
+        for bullet in self.bullets:
+            self.play(Write(bullet), run_time=run_time)
+            self.next_slide()
+
+        self.play(Create(self.algo), run_time=run_time)
+        self.next_slide()
+
+        self.play(Create(self.code), run_time=run_time)
+        self.next_slide()
         
 class AlgorithmExample3(BulletSlide):
     def __init__(self, **kwargs):
         super().__init__(
-            header_text="Algorithm Example 3 --- Find Min",
+            header_text="Algorithm Example --- Find Min",
             text_color=BLACK,
             points=[
                 r"\textbf{Problem}: Given an array of integers, find where the minimum element in the array is.",
@@ -167,6 +253,38 @@ class AlgorithmExample3(BulletSlide):
             **kwargs
         )
         add_footer(self)
+
+        self.build_algo("./assets/algo/findMin.txt")
+        self.build_code("./assets/code/findMin.c")
+
+        self.side = VGroup(self.algo, self.code).arrange(RIGHT, buff=0.4, aligned_edge=UP)
+        self.fit_in_frame(self.side)
+        group = VGroup(self.bullets, self.side).arrange(DOWN, buff=0.4)
+        self.fit_in_frame(group)
+        self.position_group(group)
+
+    def build_algo(self, algo_file):
+        self.algo = StylelessCode(
+            code_file=algo_file,
+            text_color=self.text_color
+        )
+
+    def build_code(self, code_file):
+        self.code = StylelessCode(
+            code_file=code_file,
+            text_color=self.text_color
+        )
+
+    def present_points(self, run_time=1):
+        for bullet in self.bullets:
+            self.play(Write(bullet), run_time=run_time)
+            self.next_slide()
+
+        self.play(Create(self.algo), run_time=run_time)
+        self.next_slide()
+
+        self.play(Create(self.code), run_time=run_time)
+        self.next_slide()
 
 class Section_Criteria(SectionSlide):
     def __init__(self, **kwargs):
@@ -183,7 +301,7 @@ class Criteria(BulletSlide):
             text_color=BLACK,
             points=[
                 r"For a given problem, there are often multiple possible algorithms. In such cases, one has to be selected.",
-                r"There are different criteria or metrics that help decide the 'better' algorithm.",
+                r"There are different criteria or metrics that help decide the `better' algorithm.",
                 r"The first and most essential criterion is correctness.",
                 r"Other criteria include time complexity, space complexity, simplicity, and more.",
                 r"An algorithm with low time and space complexity is called an \textbf{efficient} algorithm.",
@@ -241,7 +359,43 @@ class TimeComplexity2(BulletSlide):
             points=[
                 r"Although a computer is very fast in computation, a slow algorithm can hinder its performance.",
                 r"For instance, \textbf{repeated addition} and \textbf{long multiplication} are two algorithms for multiplying two numbers.",
-                r"They are both correct algorithms, but long multiplication is much faster than repeated addition.",
+            ],
+            **kwargs
+        )
+        add_footer(self)
+
+        self.algo1 = StylelessCode(
+            code_file="./assets/algo/repeatedAddition.txt",
+            text_color=self.text_color
+        )
+
+        self.algo2 = StylelessCode(
+            code_file="./assets/algo/longMultiplication.txt",
+            text_color=self.text_color
+        )
+
+        self.side = VGroup(self.algo1, self.algo2).arrange(RIGHT, buff=0.4, aligned_edge=UP)
+        self.fit_in_frame(self.side)
+        group = VGroup(self.bullets, self.side).arrange(DOWN, buff=0.4)
+        self.fit_in_frame(group)
+        self.position_group(group)
+
+    def present_points(self, run_time=1):
+        for bullet in self.bullets:
+            self.play(Write(bullet), run_time=run_time)
+            self.next_slide()
+
+        self.play(Create(self.algo1), run_time=run_time)
+        self.play(Create(self.algo2), run_time=run_time)
+        self.next_slide()
+        
+class TimeComplexity3(BulletSlide):
+    def __init__(self, **kwargs):
+        super().__init__(
+            header_text="Time Complexity",
+            text_color=BLACK,
+            points=[
+                r"Both repeated addition and long multiplication are correct algorithms, but long multiplication is much faster than repeated addition.",
                 r"For small numbers, the difference in performance is not noticeable. But for large inputs, it becomes significant.",
                 r"For multiplying two $25$-digit numbers, a school kid from class five using the long multiplication algorithm on pen and paper can get the output faster than the fastest supercomputer today running the repeated addition algorithm.",
                 r"To keep credit cards or Facebook accounts secure, it is required to multiply hundred-digit numbers everyday, so using repeated addition is completely impractical."
@@ -265,10 +419,123 @@ class SpaceComplexity(BulletSlide):
         )
         add_footer(self)
 
+class ComplexityExample(Slide):
+    def __init__(self, idx, complexity, **kwargs):
+        super().__init__(**kwargs)
+        self.wait_time_between_slides = 0.1
+
+        code_file = f"./assets/code/tc{idx}.c"
+        header_text = r"Time Complexity Example"
+
+        self.text_color = BLACK
+        add_header(self, header_text, text_color=self.text_color)
+        add_footer(self)
+
+        self.build_group(code_file, complexity)
+        self.fit_group_in_frame()
+        self.position_group()
+
+    def construct(self):
+        self.present()
+        self.next_slide()
+        self.cleanup()
+        self.next_slide()
+    
+    def build_group(self, code_file, complexity):
+        self.code = StylelessCode(
+            code_file=code_file,
+            text_color=self.text_color
+        )
+        self.complexity = Tex(complexity, color=self.text_color)
+    
+    def fit_group_in_frame(self):
+        max_width = config.frame_width - 1
+        max_height = config.frame_height - 2 - self.header_mob.height
+
+        if self.code.width > max_width:
+            self.code.scale_to_fit_width(max_width)
+
+        if self.complexity.width > max_width:
+            self.complexity.scale_to_fit_width(max_width)
+
+        self.group = VGroup(self.code, self.complexity)
+        self.group.arrange(DOWN, aligned_edge=LEFT, buff=0.4)
+
+        if self.group.height > max_height:
+            self.group.scale_to_fit_height(max_height)
+    
+    def position_group(self):
+        self.group.next_to(
+            self.header_mob,
+            DOWN,
+            aligned_edge=LEFT,
+            buff=0.8
+        )
+
+    def present(self, run_time=1):
+        self.play(Write(self.code), run_time=run_time)
+        self.next_slide()
+        self.play(Write(self.complexity), run_time=run_time)
+        self.next_slide()
+    
+    def cleanup(self, run_time=1):
+      self.play(
+          Unwrite(self.group),
+          run_time=run_time
+      )
+
+class ComplexityExample1(ComplexityExample):
+    def __init__(self, **kwargs):
+        super().__init__(
+            idx = 1,
+            complexity = r"\textbf{Time complexity} $T(n) = 7 \in \mathcal{O}(1)$",
+            **kwargs
+        )
+
+class ComplexityExample2(ComplexityExample):
+    def __init__(self, **kwargs):
+        super().__init__(
+            idx = 2,
+            complexity = r"\textbf{Time complexity} $T(n) = 4n \in \mathcal{O}(n)$",
+            **kwargs
+        )
+
+class ComplexityExample3(ComplexityExample):
+    def __init__(self, **kwargs):
+        super().__init__(
+            idx = 3,
+            complexity = r"\textbf{Time complexity} $T(n) = 4n + 4 \in \mathcal{O}(n)$",
+            **kwargs
+        )
+
+class ComplexityExample4(ComplexityExample):
+    def __init__(self, **kwargs):
+        super().__init__(
+            idx = 4,
+            complexity = r"\textbf{Time complexity} $T(n) = 5 \in \mathcal{O}(1)$",
+            **kwargs
+        )
+
+class ComplexityExample5(ComplexityExample):
+    def __init__(self, **kwargs):
+        super().__init__(
+            idx = 5,
+            complexity = r"\textbf{Time complexity} $T(n) \approx \dfrac{n(n + 1)}{2} + 2 \in \mathcal{O}(n^2)$",
+            **kwargs
+        )
+
+class ComplexityExample6(ComplexityExample):
+    def __init__(self, **kwargs):
+        super().__init__(
+            idx = 6,
+            complexity = r"\textbf{Time complexity} $T(n) \in \mathcal{O}(n)$",
+            **kwargs
+        )
+
 class Section_Asymptotic_Analysis(SectionSlide):
     def __init__(self, **kwargs):
         super().__init__(
-            section_title=r"Asymptotic Analysis",
+            section_title=r"Asymptotic\\Analysis",
             **kwargs
         )
         add_footer(self)
@@ -351,11 +618,10 @@ class SortingProblem2(BulletSlide):
             text_color=BLACK,
             points=[
                 r"The elements of the input array and the output array must remain exactly the same; no element may be lost, and no new element may be introduced.",
-                r"Because of this, a sorting algorithm often just performs a sequence of swaps.",
+                r"Because of this, a sorting algorithm often just performs a sequence of comparisons and swaps.",
                 r"A sorted array (in non-decreasing order) satisfies this condition: For any integers $i$ and $j$ such that $0 \le i \le j \le n - 1$, the $i$-th element is less than or equal to the $j$-th element.",
                 r"Sorting may also be performed in descending order or according to any well-defined transitive ordering on the data.",
-                r"Sorting is not limited to numbers.",
-                r"Other types of data, such as characters, strings, or more complex data structures, can also be sorted as long as a well-defined ordering exists for that data type."
+                r"Sorting is not limited to numbers. Other types of data, such as characters, strings, or more complex data structures, can also be sorted as long as a well-defined ordering exists for that data type."
             ],
             **kwargs
         )
@@ -383,6 +649,32 @@ class SelectionSort(BulletSlide):
             **kwargs
         )
         add_footer(self)
+
+class SelectionSortCode1(FunctionSlide):
+    def __init__(self, **kwargs):
+        super().__init__(
+            header_text="Sorting Algorithm --- Selection Sort",
+            points=[
+                r"\texttt{void selectionSort(int ara[], int n):} sorts all \texttt{n} elements of \texttt{ara} using selection sort algorithm."
+            ],
+            code_file="./assets/code/selectionSort.c",
+            intervals=[[1, 2, 10], [3, 5, 6, 9], [7], [8]],
+            **kwargs
+        )
+        add_footer(self)
+
+class SelectionSortCode2(FunctionSlide):
+    def __init__(self, **kwargs):
+        super().__init__(
+            header_text="Sorting Algorithm --- Selection Sort",
+            points=[
+                r"\texttt{int findFirst(int ara[], int l, int r):} returns the position of the first selected element in \texttt{ara[l \dots r]}."
+            ],
+            code_file="./assets/code/findFirst.c",
+            intervals=[[1, 2, 12], [3], [5, 6, 7, 8, 9], [11]],
+            **kwargs
+        )
+        add_footer(self)
         
 class InsertionSort(BulletSlide):
     def __init__(self, **kwargs):
@@ -394,9 +686,35 @@ class InsertionSort(BulletSlide):
                 r"How to easily process the last element?",
                 r"Insertion sort builds the sorted array incrementally.",
                 r"At each step, one element from the unsorted portion is taken and inserted into its correct position in the sorted portion.",
-                r"Initially, the first element is assumed to be in a sorted portion. Each subsequent elements is 'pushed' left as many positions as needed.",
+                r"Initially, the first element is assumed to be in a sorted portion. Each subsequent elements is `pushed' left as many positions as needed.",
                 r"The correctness of insertion is based on the transitivity law: if $a < b$ and $b < c$, then $a < c$."
             ],
+            **kwargs
+        )
+        add_footer(self)
+
+class InsertionSortCode1(FunctionSlide):
+    def __init__(self, **kwargs):
+        super().__init__(
+            header_text="Sorting Algorithm --- Insertion Sort",
+            points=[
+                r"\texttt{void insertionSort(int ara[], int n):} sorts all \texttt{n} elements of \texttt{ara} using insertion sort algorithm."
+            ],
+            code_file="./assets/code/insertionSort.c",
+            intervals=[[1, 2, 5], [3, 4]],
+            **kwargs
+        )
+        add_footer(self)
+
+class InsertionSortCode2(FunctionSlide):
+    def __init__(self, **kwargs):
+        super().__init__(
+            header_text="Sorting Algorithm --- Insertion Sort",
+            points=[
+                r"\texttt{void pushLeft(int ara[], int k):} moves \texttt{ara[k]} left until the first \texttt{k+1} elements of \texttt{ara} are in the correct order."
+            ],
+            code_file="./assets/code/pushLeft.c",
+            intervals=[[1, 2, 10], [3, 4, 9], [5, 6], [8]],
             **kwargs
         )
         add_footer(self)
@@ -418,11 +736,37 @@ class BubbleSort(BulletSlide):
             **kwargs
         )
         add_footer(self)
+
+class BubbleSortCode1(FunctionSlide):
+    def __init__(self, **kwargs):
+        super().__init__(
+            header_text="Sorting Algorithm --- Bubble Sort",
+            points=[
+                r"\texttt{void bubbleSort(int ara[], int n):} sorts all \texttt{n} elements of \texttt{ara} using bubble sort algorithm."
+            ],
+            code_file="./assets/code/bubbleSort.c",
+            intervals=[[1, 2, 5], [3, 4]],
+            **kwargs
+        )
+        add_footer(self)
+
+class BubbleSortCode2(FunctionSlide):
+    def __init__(self, **kwargs):
+        super().__init__(
+            header_text="Sorting Algorithm --- Bubble Sort",
+            points=[
+                r"\texttt{void runBubbleSortRound(int ara[], int n):} runs one round of bubble sort on all \texttt{n} elements of \texttt{ara}."
+            ],
+            code_file="./assets/code/runBubbleSortRound.c",
+            intervals=[[1, 2, 8], [3, 4, 7], [5, 6]],
+            **kwargs
+        )
+        add_footer(self)
         
 class SortingTimeComplexity(BulletSlide):
     def __init__(self, **kwargs):
         super().__init__(
-            header_text="Sorting\\Algorithms",
+            header_text=r"Sorting Algorithms",
             text_color=BLACK,
             points=[
                 r"In selection sort, to place one element in the correct position, $\mathcal{O}(n)$ operations are required to find it and $\mathcal{O}(1)$ operation to swap it.",
@@ -444,18 +788,31 @@ class Section_Summary(SectionSlide):
         )
         add_footer(self)
 
-class Summary(BulletSlide):
+class Summary1(BulletSlide):
     def __init__(self, **kwargs):
         super().__init__(
             header_text="Summary",
             text_color=BLACK,
             points=[
-                r"Recursion solves problems by reducing them to smaller instances of the same problem.",
-                r"A correct recursive solution depends on a clear base case and a correct recursive step.",
-                r"The recursive leap of faith allows focusing only on the current step instead of the entire process.",
-                r"The total running time of a recursive function depends on the work done across all recursive calls.",
-                r"The space requirement depends on how many function calls are active at the same time (at the call stack).",
-                r"Sometimes a problem needs to be generalized to solve with recursion."
+                r"An algorithm is a finite sequence of well-defined steps that solves a problem.",
+                r"Effective problem solving starts with understanding input-output relationships before coding.",
+                r"Multiple algorithms may solve the same problem; prioritize correctness, then efficiency and simplicity.",
+                r"Time complexity measures how operations grow with input size, while space complexity tracks memory usage.",
+            ],
+            **kwargs
+        )
+        add_footer(self)
+
+class Summary2(BulletSlide):
+    def __init__(self, **kwargs):
+        super().__init__(
+            header_text="Summary",
+            text_color=BLACK,
+            points=[
+                r"Asymptotic analysis focuses on large inputs using Big-O notation to describe dominant growth.",
+                r"Selection sort repeatedly selects the smallest remaining element.",
+                r"Insertion sort builds a sorted portion by shifting elements into place.",
+                r"Bubble sort swaps adjacent elements that are out of order."
             ],
             **kwargs
         )

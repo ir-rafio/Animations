@@ -2,7 +2,7 @@ from manim import *
 from props.academia import *
 
 lecture_number = 3
-lecture_title = "Introduction to Recursion"
+lecture_title = "Introduction to Algorithms"
 course_code = "CSE 4202"
 course_title = "Structured Programming II Lab"
 course_teachers = [

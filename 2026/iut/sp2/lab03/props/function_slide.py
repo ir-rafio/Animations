@@ -16,7 +16,11 @@ class FunctionSlide(BulletSlide):
         self.code = StylelessCode(
             code_file=code_file,
             text_color=text_color
-        ).next_to(self.bullets, DOWN, buff=0.4)
+        )
+
+        group = VGroup(self.bullets, self.code).arrange(DOWN, buff=0.4)
+        self.fit_in_frame(group)
+        self.position_group(group)
 
     def present_points(self, run_time=1):
         super().present_points(run_time=run_time)

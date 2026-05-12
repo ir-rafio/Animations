@@ -1,0 +1,8 @@
+findMin(ara):
+    smol = 0
+    
+    Check all elements from ara[1] to the last:
+        If an element is smaller than ara[smol],
+            Store its position in smol
+    
+    return smol

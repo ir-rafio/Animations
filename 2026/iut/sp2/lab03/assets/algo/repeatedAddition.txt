@@ -1,0 +1,7 @@
+multiply(a, b):
+    ans = 0
+
+    Repeat b times:
+        Add a to ans
+
+    return ans

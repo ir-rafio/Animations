@@ -1,0 +1,9 @@
+multiply(a, b):
+    ans = 0
+
+    For each digit d in b from right to left:
+        Find the partial product of a and d
+        Shift the partial product left according to digit position
+        Add the shifted partial product to ans
+
+    return ans

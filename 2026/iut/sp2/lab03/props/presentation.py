@@ -184,7 +184,7 @@ class BulletSlide(Slide):
             self.next_slide()
 
         if len(self.side) > 0:
-            self.play(Create(self.side))
+            self.play(Create(self.side), run_time=run_time)
             self.next_slide()
 
     def cleanup(self, run_time=1):
