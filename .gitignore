@@ -17,5 +17,20 @@ __pycache__/
 # Logs
 *.log
 
+# Archives / compressed files
+*.7z
+*.bz2
+*.gz
+*.iso
+*.lz
+*.lz4
+*.rar
+*.tar
+*.tar.gz
+*.tgz
+*.xz
+*.zip
+*.zst
+
 # Experiment Folder
 playground
